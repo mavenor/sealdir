@@ -1,0 +1,42 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# The macOS Finder’s icon arrangement
+.DS_Store
+
+# ./tmp dir (if ever needed)
+tmp/
+
+# Ignore XC UI stuff
+seal-dir.xcodeproj/project.xcworkspace
+seal-dir.xcodeproj/xcuserdata/
