@@ -11,13 +11,11 @@
 
 namespace fs = std::filesystem;
 
-/// Definitions for the `digest` object:
-//    std::string value;
-//    int numeric;
-//
+// BEGIN definitions for digest
+
     // CONSTRUCTORS:
     // -------------
-//    digest::digest (void) {}
+
     digest::digest (std::string& message) {
         gcry_md_hd_t ctx;
         gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
@@ -35,18 +33,6 @@ namespace fs = std::filesystem;
     // ----------
 
     digest& digest::operator+ (digest& other) {
-//        gcry_md_hd_t ctx;
-//        gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
-//        gcry_md_write(ctx, this->value.c_str(), this->value.size());
-//        gcry_md_write(ctx, other.value.c_str(), other.value.size());
-//        unsigned char * _digest_sum = std::move(gcry_md_read(ctx, SEAL_DIR_HASH_ALGO));
-//
-//        std::string tmp = *(new std::string);
-//        for (unsigned long i = 0; i < SEAL_DIR_HASH_ALGO_SIZE; i++)
-//            tmp += std::to_string(static_cast<unsigned>(_digest_sum[i]));
-//
-//        gcry_md_close(ctx);
-
         std::string _tmp = (this->value + other.value);
         return *(new digest(_tmp));
     }
@@ -137,8 +123,6 @@ public:
     // -------------
     
     bound_hash_node (const fs::path& thePath) : directory_entry(thePath) {
-//        digest_raw = new unsigned char [SEAL_DIR_HASH_ALGO_SIZE];
-//        digest_meta   = new unsigned char [SEAL_DIR_HASH_ALGO_SIZE];
         nChildren = 0;
         children = nullptr;
     }
@@ -147,85 +131,15 @@ public:
     
     // default stuff
     bound_hash_node (void) {
-//        digest_raw = nullptr;
         children = nullptr;
         nChildren = 0;
     }
     
-//    bound_hash_node (const bound_hash_node& other) : directory_entry(other) {
-////        digest_raw  = new unsigned char [SEAL_DIR_HASH_ALGO_SIZE];
-////        digest_meta = new unsigned char [SEAL_DIR_HASH_ALGO_SIZE];
-//        for (unsigned long i = 0; i < SEAL_DIR_HASH_ALGO_SIZE; i++) {
-//            digest_raw[i] = other.digest_raw[i];
-//        }
-//        nChildren = other.nChildren;
-//        for (int i = 0; i < nChildren; i++) {
-//            children[i] = other.children[i];
-//        }
-//    }
     bound_hash_node (const bound_hash_node&) = default;
     bound_hash_node (bound_hash_node&&) noexcept = default;
     bound_hash_node& operator= (const bound_hash_node&) = default;
     bound_hash_node& operator= (bound_hash_node&&) noexcept = default;
 };
-
-// LEAF:
-// -----
-
-// REFERENCE MEMBER STYLE
-
-//class leaf : public hash_node {
-//private:
-//    std::fstream& file;
-//
-//
-//public:
-//    leaf (const fs::path& thePath) : hash_node(thePath), file(*(new std::fstream (thePath, readOnly))) {
-//        file.exceptions(dirty);
-//        if (gcry_md_test_algo(SEAL_DIR_HASH_ALGO) > 0)
-//            throw failed_algo();
-//
-//        unsigned long file_size = fs::file_size(thePath);
-//        char * buffer = new char[SEAL_DIR_HASH_BLK_SIZE];
-//
-//        if (file_size <= SEAL_DIR_HASH_BLK_SIZE) {
-//            digest = new unsigned char [SEAL_DIR_HASH_ALGO_SIZE];
-//            file.read(buffer, file_size);
-//            gcry_md_hash_buffer(SEAL_DIR_HASH_ALGO, digest, buffer, file_size);
-//        }
-//        else {
-//            gcry_md_hd_t ctx;
-//            gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
-//            unsigned long file_remain;
-//            for (file_remain = file_size;
-//                 file_remain >= SEAL_DIR_HASH_ALGO_SIZE;
-//                 file_remain = (file_size - file.tellg()))
-//            {
-//                file.read(buffer, SEAL_DIR_HASH_ALGO_SIZE);
-//                gcry_md_write(ctx, buffer, SEAL_DIR_HASH_ALGO_SIZE);
-//            }
-//            file.read(buffer, file_remain);
-//            gcry_md_write(ctx, buffer, file_remain);
-//            digest = std::move(gcry_md_read(ctx, SEAL_DIR_HASH_ALGO));
-//            gcry_md_reset(ctx);
-//
-//            // digest with file_name
-//            gcry_md_close(ctx);
-//        }
-//        file.close();
-//        delete [] buffer;
-//    }
-//
-//    // We don't even WANT there to be a default constructor
-//    leaf (void) = delete;
-//    leaf (const leaf& other) : hash_node(other), file(other.file) {}
-//    leaf (leaf&& other) noexcept : hash_node(other), file(other.file) {}
-////    leaf& operator= (const leaf&) = default;
-////    leaf& operator= (leaf&&) noexcept = default;
-//};
-
-
-// REGULAR MEMBER STYLE
 
 class leaf : public bound_hash_node {
 private:
@@ -375,10 +289,6 @@ unsupported::unsupported (std::filesystem::file_type theOffender) {
 }
 
 const char * unsupported::what (void) const noexcept {
-//    static const char output (*("\e[31mERROR:\e[39m " + offender + "files in the given directory!").c_str());
-//    // TODO: destroy this
-//    // TODO: handle passing of unexpected (inoffensive) files while catching
-    
     return std::move(("A(n) " + offender + " file was found in the given directory!").c_str());
 }
 
