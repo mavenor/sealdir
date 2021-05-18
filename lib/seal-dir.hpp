@@ -60,8 +60,9 @@ public:
 };
 
 class failed_algo : public std::exception {
+public:
     const char * what (void) const noexcept {
-        return "\e[31mERROR\e[39m The chosen algorithm is unavailable in the current setup!\n";
+        return "The chosen algorithm is unavailable in the current setup!\n";
     }
 };
 /* --------- End Exceptions --------- */

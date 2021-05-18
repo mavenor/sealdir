@@ -379,7 +379,7 @@ const char * unsupported::what (void) const noexcept {
 //    // TODO: destroy this
 //    // TODO: handle passing of unexpected (inoffensive) files while catching
     
-    return std::move(("\e[31mERROR:\e[39m " + offender + "files in the given directory!").c_str());
+    return std::move(("A(n) " + offender + " file was found in the given directory!").c_str());
 }
 
 struct raw_hash_node {
