@@ -20,27 +20,18 @@ namespace fs = std::filesystem;
         gcry_md_hd_t ctx;
         gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
         gcry_md_write(ctx, message.c_str(), message.size());
-
-        numeric = std::move(static_cast<unsigned>(* gcry_md_read(ctx, SEAL_DIR_HASH_ALGO)));
         
-        std::stringstream _hex_value;
-        _hex_value << std::hex << numeric;
-        
-        _hex_value >> value;
+        read(ctx);
         
         gcry_md_close(ctx);
     }
 
-    digest::digest (unsigned data) {
+    digest::digest (unsigned * data, size_t length) {
         gcry_md_hd_t ctx;
         gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
-        gcry_md_write(ctx, &data, 1);
+        gcry_md_write(ctx, &data, length);
         
-        numeric = std::move(static_cast<unsigned>(* gcry_md_read(ctx, SEAL_DIR_HASH_ALGO)));
-        
-        std::stringstream _hex_value;
-        _hex_value << std::hex << std::setw(2) << std::setfill('0') << numeric;
-        _hex_value >> value;
+        read(ctx);
         
         gcry_md_close(ctx);
     }
@@ -49,21 +40,21 @@ namespace fs = std::filesystem;
     // ----------
 
     digest& digest::operator+ (digest& other) {
-        unsigned _tmp = (this->numeric + other.numeric);
-        return *(new digest(_tmp));
+        unsigned * _total = new unsigned [SEAL_DIR_HASH_ALGO_SIZE*2];
+        for (unsigned long i = 0; i < SEAL_DIR_HASH_ALGO_SIZE; i++) {
+            _total[i]                           = this->numeric[i];
+            _total[i + SEAL_DIR_HASH_ALGO_SIZE] = other.numeric[i];
+        }
+        return *(new digest(_total, SEAL_DIR_HASH_ALGO_SIZE*2));
     }
 
     void digest::operator+= (digest& other) {
         gcry_md_hd_t ctx;
         gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
-        gcry_md_write(ctx, &(this->numeric), 1);
-        gcry_md_write(ctx, &(other.numeric), 1);
-        numeric = std::move(static_cast<unsigned>(* gcry_md_read(ctx, SEAL_DIR_HASH_ALGO)));
-
-        value.clear();
-        std::stringstream _hex_value;
-        _hex_value << std::hex << std::setw(2) << std::setfill('0') << numeric;
-        _hex_value >> value;
+        gcry_md_write(ctx, this->numeric, SEAL_DIR_HASH_ALGO_SIZE);
+        gcry_md_write(ctx, other.numeric, SEAL_DIR_HASH_ALGO_SIZE);
+        
+        read(ctx);
         
         gcry_md_close(ctx);
 
@@ -95,16 +86,24 @@ namespace fs = std::filesystem;
     }
 
     void digest::read (gcry_md_hd_t& ctx) {
-        numeric = std::move(static_cast<unsigned>(* gcry_md_read(ctx, SEAL_DIR_HASH_ALGO)));
+        numeric = new unsigned [SEAL_DIR_HASH_ALGO_SIZE];
+        unsigned char * _hash = gcry_md_read(ctx, SEAL_DIR_HASH_ALGO);
         
-        value.clear();
-        std::stringstream _hex_value;
-        _hex_value << std::hex << std::setw(2) << std::setfill('0') << numeric;
-        _hex_value >> value;
-    
+        for (unsigned long i = 0; i < SEAL_DIR_HASH_ALGO_SIZE; i++)
+            numeric[i] = std::move(_hash[i]);
+        
         return;
     }
 
+    std::string& digest::print (void) {
+        std::stringstream _hex_value;
+        for (unsigned long i = 0; i < SEAL_DIR_HASH_ALGO_SIZE; i++)
+            _hex_value << std::hex << std::setw(2) << std::setfill('0') << numeric[i];
+        
+        std::string& output = *(new std::string);
+        _hex_value >> output;
+        return output;
+    }
 
 // END definitions for digest
 
@@ -234,8 +233,8 @@ namespace fs = std::filesystem;
             }
             
             // hash the childrens’ hashes
-            gcry_md_write(ctx_raw, children[i].digest_raw.value.c_str(), children[i].digest_raw.value.size());
-            gcry_md_write(ctx_meta, children[i].digest_meta.value.c_str(), children[i].digest_meta.value.size());
+            gcry_md_write(ctx_raw, children[i].digest_raw.numeric, SEAL_DIR_HASH_ALGO_SIZE);
+            gcry_md_write(ctx_meta, children[i].digest_meta.numeric, SEAL_DIR_HASH_ALGO_SIZE);
         }
         
         digest_raw.read(ctx_raw);

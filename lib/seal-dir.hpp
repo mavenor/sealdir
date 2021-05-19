@@ -74,11 +74,10 @@ public:
 /* --------- Data Structures / Types --------- */
 /// A hash-digest object
 struct digest {
-    std::string value;
-    unsigned numeric;
+    unsigned * numeric;
     
     digest (std::string&);
-    digest (unsigned);
+    digest (unsigned *, size_t length = SEAL_DIR_HASH_ALGO_SIZE);
     
     digest (void) = default;
     digest (const digest&) = default;
@@ -97,6 +96,7 @@ struct digest {
     bool operator<= (digest& other);
     
     void read (gcry_md_hd_t& ctx);
+    std::string& print (void);
 };
 
 /// Any general node in the Merkle tree, bound to the corresponding filesystem object
