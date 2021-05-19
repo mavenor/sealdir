@@ -73,7 +73,7 @@ class leaf; // (FILE)
 class tree; // (DIR)
 struct digest {
     std::string value;
-    int numeric;
+    unsigned numeric;
     
     inline digest (std::string&);
     
