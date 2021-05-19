@@ -3,7 +3,7 @@ A C++ library and CLI tool 🔧 to seal a directory’s state 📦 📨. In esse
 
 While that technically doesn’t mean one specific thing (capable of being interpreted and/or implemented in different ways), here it means recursively hashing its contents using a **tree structure**. Including the metadata of each dir-tree node as well, this “*stamp*” hash that is thus calculated *should* make it very hard for a directory to be tampered with secretly.
 
-It’s been done before — [hash-trees](https://en.wikipedia.org/wiki/Merkle_tree) (also “*Merkle trees*” after their creator [Ralph C. Merkle](https://www.merkle.com))] of directories are under the hood of modern cryptocurrency, the BitTorrent protocol 📥, macOS [SSV](https://eclecticlight.co/2020/11/30/is-big-surs-system-volume-sealed), and **git 🎋⌥ itself**.
+It’s been done before — [hash-trees](https://en.wikipedia.org/wiki/Merkle_tree) (also “*Merkle trees*” after their creator [Ralph C. Merkle](https://www.merkle.com))] of directories are used in the BitTorrent protocol 📥, macOS [SSV](https://eclecticlight.co/2020/11/30/is-big-surs-system-volume-sealed), and **git 🎋⌥ itself**.
 
 But this project aims at making a **near-standalone library** (as well as an exemplifying frontend CLT) available, for any other great ideas yet unimplemented to gain a head-start.
 
