@@ -29,8 +29,8 @@ int main (int argc, const char * argv[]) {
         tree root(entry);
         cout
             << "done" << endl
-            << "The hash of the given directory:" << endl
-            << root.digest_meta.value << endl;
+            << "The hash of the directory " << thePath.filename() <<" is:" << endl
+            << root.digest_meta.print() << endl;
         
     }
     catch (fs::filesystem_error& event) {
