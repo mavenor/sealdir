@@ -13,6 +13,8 @@
 #include <iostream>
 #include <filesystem>
 #include <fstream>
+#include <sstream>
+#include <iomanip>
 #include <chrono>
 
 #include <ctime>
@@ -76,6 +78,7 @@ struct digest {
     unsigned numeric;
     
     digest (std::string&);
+    digest (unsigned);
     
     digest (void) = default;
     digest (const digest&) = default;
