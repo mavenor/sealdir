@@ -180,6 +180,7 @@ public:
         // digest with meta
         gcry_md_reset(ctx);
         gcry_md_enable(ctx, SEAL_DIR_HASH_ALGO);
+        file.seekg(0, std::ios::beg);
         for (file_remain = file_size;
              file_remain >= SEAL_DIR_HASH_ALGO_SIZE;
              file_remain = (file_size - file.tellg()))
