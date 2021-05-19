@@ -157,11 +157,7 @@ namespace fs = std::filesystem;
         file.read(buffer, file_remain);
         gcry_md_write(ctx, buffer, file_remain);
         
-        unsigned char * __digest_raw_cstr = std::move(gcry_md_read(ctx, SEAL_DIR_HASH_ALGO));
-        for (unsigned long i = 0; i < SEAL_DIR_HASH_ALGO_SIZE; i++) {
-            digest_raw.value += std::to_string(static_cast<unsigned>(__digest_raw_cstr[i]));
-        }
-        // TODO: change 👆 to use methods of digest
+        digest_raw.read(ctx);
         
         // digest with meta
         gcry_md_reset(ctx);
