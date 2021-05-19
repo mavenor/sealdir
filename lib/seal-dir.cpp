@@ -88,13 +88,6 @@ namespace fs = std::filesystem;
         return;
     }
 
-    void digest::read (unsigned char * c_str, unsigned long length) {
-        value.clear();
-        for (unsigned long i = 0; i < SEAL_DIR_HASH_ALGO_SIZE; i++)
-            value += std::to_string(static_cast<unsigned>(c_str[i]));
-        numeric = std::stoi(value, NULL, 16);
-        return;
-    }
 
 // END definitions for digest
 

@@ -94,7 +94,6 @@ struct digest {
     bool operator<= (digest& other);
     
     void read (gcry_md_hd_t& ctx);
-    void read (unsigned char * c_str, unsigned long length);
 };
 
 /// Any general node in the Merkle tree, bound to the corresponding filesystem object
