@@ -5,6 +5,16 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <PostActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Run Script"
+               scriptText = "ln -s \&#10;    ${HOME}/Library/Developer/Xcode/DerivedData/Build/Products/Debug/libsealdir.dylib \&#10;    ${HOME}/brewery/lib/libsealdir.dylib&#10;"
+               shellToInvoke = "/bin/zsh">
+            </ActionContent>
+         </ExecutionAction>
+      </PostActions>
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -14,9 +24,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E9009434264AE6F6004C45C2"
-               BuildableName = "seal-dir"
-               BlueprintName = "seal-dir"
+               BlueprintIdentifier = "E90C03BF265430FA0078D0DB"
+               BuildableName = "libsealdir.dylib"
+               BlueprintName = "sealdir"
                ReferencedContainer = "container:seal-dir.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -40,30 +50,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E9009434264AE6F6004C45C2"
-            BuildableName = "seal-dir"
-            BlueprintName = "seal-dir"
-            ReferencedContainer = "container:seal-dir.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "${HOME}/brewery/seal-dir/tmp"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "${HOME}/R"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "${HOME}/ISOes"
-            isEnabled = "NO">
-         </CommandLineArgument>
-      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -71,16 +57,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E9009434264AE6F6004C45C2"
-            BuildableName = "seal-dir"
-            BlueprintName = "seal-dir"
+            BlueprintIdentifier = "E90C03BF265430FA0078D0DB"
+            BuildableName = "libsealdir.dylib"
+            BlueprintName = "sealdir"
             ReferencedContainer = "container:seal-dir.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

@@ -95,24 +95,15 @@ namespace fs = std::filesystem;
         numeric = std::stoi(value, NULL, 16);
         return;
     }
-//};
+
+// END definitions for digest
 
 
-/// Any node in a hash-tree
-class bound_hash_node : public fs::directory_entry {
-    
-protected:
-    int nChildren;
-    bound_hash_node * children;
-    
-    
-public:
-    digest digest_raw, digest_meta;
+// BEGIN definitions for bound_hash_node
     
     // OPERATORS:
     // ----------
-    
-    bool operator== (bound_hash_node& other) {
+    bool bound_hash_node::operator== (bound_hash_node& other) {
         if (this->digest_raw == other.digest_raw)
             return true;
         else
@@ -121,33 +112,18 @@ public:
     
     // CONSTRUCTORS:
     // -------------
-    
-    bound_hash_node (const fs::path& thePath) : directory_entry(thePath) {
+    bound_hash_node::bound_hash_node (const fs::path& thePath) : directory_entry(thePath) {
         nChildren = 0;
         children = nullptr;
     }
     
-    bound_hash_node (const fs::directory_entry& theEntry) : bound_hash_node(theEntry.path()) {}
+    bound_hash_node::bound_hash_node (const fs::directory_entry& theEntry) : bound_hash_node(theEntry.path()) {}
     
-    // default stuff
-    bound_hash_node (void) {
-        children = nullptr;
-        nChildren = 0;
-    }
-    
-    bound_hash_node (const bound_hash_node&) = default;
-    bound_hash_node (bound_hash_node&&) noexcept = default;
-    bound_hash_node& operator= (const bound_hash_node&) = default;
-    bound_hash_node& operator= (bound_hash_node&&) noexcept = default;
-};
+// END definitions for bound_hash_node
 
-class leaf : public bound_hash_node {
-private:
-    /// The file associated with a leaf
-    std::fstream file;
-    
-public:
-    leaf (const fs::path& thePath) : bound_hash_node(thePath) {
+// BEGIN definitions for leaf
+
+    leaf::leaf (const fs::path& thePath) : bound_hash_node(thePath) {
         file.open(thePath, readOnly);
         file.exceptions(dirty);
         if (gcry_md_test_algo(SEAL_DIR_HASH_ALGO) > 0)
@@ -214,20 +190,15 @@ public:
         delete [] buffer;
     }
     
-    leaf (const fs::directory_entry& theEntry) : leaf(theEntry.path()) {}
-    
-    // ? Do we even want a default constructor 👇?
-    leaf (void);
-    leaf (const leaf& other) : bound_hash_node(other) {};
-    leaf (leaf&& other) noexcept : bound_hash_node(other) {};
-//    leaf& operator= (const leaf&) = default;
-//    leaf& operator= (leaf&&) noexcept = default;
-};
+    leaf::leaf (const fs::directory_entry& theEntry) : leaf(theEntry.path()) {}
+    leaf::leaf (const leaf& other) : bound_hash_node(other) {};
+    leaf::leaf (leaf&& other) noexcept : bound_hash_node(other) {};
 
-class tree : public bound_hash_node {
+// END definitions for leaf
 
-public:
-    tree (const fs::path& thePath) : bound_hash_node(thePath) {
+// BEGIN definitions for tree
+
+    tree::tree (const fs::path& thePath) : bound_hash_node(thePath) {
         gcry_md_hd_t ctx_raw;
         gcry_md_open(&ctx_raw, SEAL_DIR_HASH_ALGO, 0);
         
@@ -265,8 +236,9 @@ public:
         digest_meta.read(ctx_meta);
     }
     
-    tree (const fs::directory_entry& theEntry) : tree(theEntry.path()) {}
-};
+    tree::tree (const fs::directory_entry& theEntry) : tree(theEntry.path()) {}
+
+// END definitions for tree
 
 /* EXCEPTION `UNSUPPORTED' */
 unsupported::unsupported (std::filesystem::file_type theOffender) {

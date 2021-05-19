@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E9BE7A17264AF40B00C72A1F /* seal-dir.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7A15264AF40B00C72A1F /* seal-dir.cpp */; };
+		E90C03F826548D4D0078D0DB /* tool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90C03F726548D4D0078D0DB /* tool.cpp */; };
+		E90C03FA2654924D0078D0DB /* seal-dir.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7A15264AF40B00C72A1F /* seal-dir.cpp */; };
+		E90C03FB265492500078D0DB /* seal-dir.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E9BE7A16264AF40B00C72A1F /* seal-dir.hpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,6 +26,8 @@
 
 /* Begin PBXFileReference section */
 		E9009435264AE6F6004C45C2 /* seal-dir */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "seal-dir"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E90C03F026548CB50078D0DB /* libsealdir.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libsealdir.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		E90C03F726548D4D0078D0DB /* tool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tool.cpp; sourceTree = "<group>"; };
 		E9BE7A15264AF40B00C72A1F /* seal-dir.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "seal-dir.cpp"; sourceTree = "<group>"; };
 		E9BE7A16264AF40B00C72A1F /* seal-dir.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = "seal-dir.hpp"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -36,12 +40,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E90C03EE26548CB50078D0DB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		E900942C264AE6F6004C45C2 = {
 			isa = PBXGroup;
 			children = (
+				E90C03F526548D4D0078D0DB /* src */,
 				E9BE7A14264AF3B900C72A1F /* lib */,
 				E9009436264AE6F6004C45C2 /* Products */,
 			);
@@ -51,8 +63,17 @@
 			isa = PBXGroup;
 			children = (
 				E9009435264AE6F6004C45C2 /* seal-dir */,
+				E90C03F026548CB50078D0DB /* libsealdir.dylib */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E90C03F526548D4D0078D0DB /* src */ = {
+			isa = PBXGroup;
+			children = (
+				E90C03F726548D4D0078D0DB /* tool.cpp */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 		E9BE7A14264AF3B900C72A1F /* lib */ = {
@@ -65,6 +86,17 @@
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E90C03EC26548CB50078D0DB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E90C03FB265492500078D0DB /* seal-dir.hpp in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		E9009434264AE6F6004C45C2 /* seal-dir */ = {
@@ -84,6 +116,23 @@
 			productReference = E9009435264AE6F6004C45C2 /* seal-dir */;
 			productType = "com.apple.product-type.tool";
 		};
+		E90C03EF26548CB50078D0DB /* sealdir */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E90C03F126548CB50078D0DB /* Build configuration list for PBXNativeTarget "sealdir" */;
+			buildPhases = (
+				E90C03EC26548CB50078D0DB /* Headers */,
+				E90C03ED26548CB50078D0DB /* Sources */,
+				E90C03EE26548CB50078D0DB /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = sealdir;
+			productName = sealdir;
+			productReference = E90C03F026548CB50078D0DB /* libsealdir.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -93,6 +142,9 @@
 				LastUpgradeCheck = 1250;
 				TargetAttributes = {
 					E9009434264AE6F6004C45C2 = {
+						CreatedOnToolsVersion = 12.5;
+					};
+					E90C03EF26548CB50078D0DB = {
 						CreatedOnToolsVersion = 12.5;
 					};
 				};
@@ -111,6 +163,7 @@
 			projectRoot = "";
 			targets = (
 				E9009434264AE6F6004C45C2 /* seal-dir */,
+				E90C03EF26548CB50078D0DB /* sealdir */,
 			);
 		};
 /* End PBXProject section */
@@ -120,7 +173,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9BE7A17264AF40B00C72A1F /* seal-dir.cpp in Sources */,
+				E90C03F826548D4D0078D0DB /* tool.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E90C03ED26548CB50078D0DB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E90C03FA2654924D0078D0DB /* seal-dir.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +308,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEPLOYMENT_LOCATION = NO;
+				OTHER_LDFLAGS = "-lgcrypt";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -256,7 +318,36 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEPLOYMENT_LOCATION = YES;
+				OTHER_LDFLAGS = "-lgcrypt";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		E90C03F226548CB50078D0DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				OTHER_LDFLAGS = "-lgcrypt";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		E90C03F326548CB50078D0DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				OTHER_LDFLAGS = "-lgcrypt";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -277,6 +368,15 @@
 			buildConfigurations = (
 				E900943D264AE6F6004C45C2 /* Debug */,
 				E900943E264AE6F6004C45C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E90C03F126548CB50078D0DB /* Build configuration list for PBXNativeTarget "sealdir" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E90C03F226548CB50078D0DB /* Debug */,
+				E90C03F326548CB50078D0DB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

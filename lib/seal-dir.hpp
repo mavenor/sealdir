@@ -42,6 +42,8 @@
 
 const unsigned long SEAL_DIR_HASH_ALGO_SIZE = gcry_md_get_algo_dlen(SEAL_DIR_HASH_ALGO);
 
+namespace fs = std::filesystem;
+
 /* ------- BitMask Definitions ------- */
 static const std::ios::openmode readOnly  = ( std::ios::in | std::ios::binary );
 static const std::ios::openmode readWrite = ( std::ios::in | std::ios::out | std::ios::binary );
@@ -55,8 +57,8 @@ class unsupported : public std::exception {
     std::string offender;
     
 public:
-    inline unsupported (std::filesystem::file_type theOffender);
-    inline const char * what (void) const noexcept;
+    unsupported (std::filesystem::file_type theOffender);
+    const char * what (void) const noexcept;
 };
 
 class failed_algo : public std::exception {
@@ -68,34 +70,82 @@ public:
 /* --------- End Exceptions --------- */
 
 /* --------- Data Structures / Types --------- */
-class bound_hash_node;
-class leaf; // (FILE)
-class tree; // (DIR)
+/// A hash-digest object
 struct digest {
     std::string value;
     unsigned numeric;
     
-    inline digest (std::string&);
+    digest (std::string&);
     
-    digest (void);
+    digest (void) = default;
     digest (const digest&) = default;
     digest (digest&&) noexcept = default;
 
     digest& operator= (const digest&) = default;
     digest& operator= (digest&&) noexcept = default;
     
-    inline digest& operator+ (digest& other);
-    inline void operator+= (digest& other);
-    inline bool operator== (digest& other);
-    inline bool operator!= (digest& other);
-    inline bool operator> (digest& other);
-    inline bool operator>= (digest& other);
-    inline bool operator< (digest& other);
-    inline bool operator<= (digest& other);
+    digest& operator+ (digest& other);
+    void operator+= (digest& other);
+    bool operator== (digest& other);
+    bool operator!= (digest& other);
+    bool operator> (digest& other);
+    bool operator>= (digest& other);
+    bool operator< (digest& other);
+    bool operator<= (digest& other);
     
-    inline void read (gcry_md_hd_t& ctx);
-    inline void read (unsigned char * c_str, unsigned long length);
+    void read (gcry_md_hd_t& ctx);
+    void read (unsigned char * c_str, unsigned long length);
 };
+
+/// Any general node in the Merkle tree, bound to the corresponding filesystem object
+class bound_hash_node : public fs::directory_entry {
+    
+protected:
+    int nChildren;
+    bound_hash_node * children;
+    
+    
+public:
+    digest digest_raw, digest_meta;
+    
+    // OPERATORS:
+    // ----------
+    bool operator== (bound_hash_node&);
+
+    // CONSTRUCTORS:
+    // -------------
+    bound_hash_node (const fs::path&);
+    bound_hash_node (const fs::directory_entry&);
+    // default stuff
+    bound_hash_node (void) = default;
+    bound_hash_node (const bound_hash_node&) = default;
+    bound_hash_node (bound_hash_node&&) noexcept = default;
+    bound_hash_node& operator= (const bound_hash_node&) = default;
+    bound_hash_node& operator= (bound_hash_node&&) noexcept = default;
+};
+/// A leaf node of the Merkle tree — bound to a file
+class leaf : public bound_hash_node {
+private:
+    /// The file associated with a leaf
+    std::fstream file;
+    
+public:
+    leaf (const fs::path&);
+    leaf (const fs::directory_entry&);
+    // ? Do we even want a default constructor 👇?
+    leaf (void) = default;
+    leaf (const leaf&);
+    leaf (leaf&&) noexcept;
+};
+
+/// An internal node of the Merkle tree — bound to a directroy
+class tree : public bound_hash_node {
+public:
+    tree (const fs::path&);
+    tree (const fs::directory_entry&);
+};
+
+
 struct raw_hash_node;
 class binary_hash_tree;
 /* ------- End Data Structures ------- */
