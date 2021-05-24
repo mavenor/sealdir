@@ -16,6 +16,7 @@
 #include <sstream>
 #include <iomanip>
 #include <chrono>
+#include <thread>
 
 #include <ctime>
 #include <cstdio>
@@ -82,6 +83,8 @@ struct digest {
     unsigned * numeric;
     
     digest (std::string&);
+    digest (std::fstream&, unsigned long size);
+    digest (std::fstream&, unsigned long size, std::string metadata [], int n_metadata);
     digest (unsigned *, size_t length = SEAL_DIR_HASH_ALGO_SIZE);
     
     digest (void) = default;
