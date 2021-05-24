@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E90C03FA2654924D0078D0DB /* seal-dir.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7A15264AF40B00C72A1F /* seal-dir.cpp */; };
 		E90C03FB265492500078D0DB /* seal-dir.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E9BE7A16264AF40B00C72A1F /* seal-dir.hpp */; };
 		E92D38A626560C1200AB2A99 /* tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90C03F726548D4D0078D0DB /* tests.cpp */; };
+		E9C24F96265B102500C1FE45 /* seal-dir.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7A15264AF40B00C72A1F /* seal-dir.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -181,7 +181,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E90C03FA2654924D0078D0DB /* seal-dir.cpp in Sources */,
+				E9C24F96265B102500C1FE45 /* seal-dir.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,10 +350,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				LIBRARY_SEARCH_PATHS = (
-					/usr/local/lib,
-					"${HOME}/Library/Developer/Xcode/DerivedData/Build/Products/Debug",
-				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				OTHER_LDFLAGS = (
 					"-lsealdir",
 					"-lgcrypt",
@@ -367,10 +364,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				LIBRARY_SEARCH_PATHS = (
-					/usr/local/lib,
-					"${HOME}/Library/Developer/Xcode/DerivedData/Build/Products/Debug",
-				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				OTHER_LDFLAGS = (
 					"-lsealdir",
 					"-lgcrypt",

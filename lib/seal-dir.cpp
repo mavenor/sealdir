@@ -84,6 +84,58 @@ namespace fs = std::filesystem;
         gcry_md_close(ctx);
     }
 
+digest::digest (std::fstream& file, unsigned long fSize) {
+    gcry_md_hd_t ctx;
+    gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
+    
+    char * buffer = new char[SEAL_DIR_HASH_BLK_SIZE];
+    
+    file.seekg(0, std::ios::beg);
+    unsigned long file_remain;
+    for (file_remain = fSize;
+         file_remain >= SEAL_DIR_HASH_ALGO_SIZE;
+         file_remain = (fSize - file.tellg()))
+    {
+        file.read(buffer, SEAL_DIR_HASH_ALGO_SIZE);
+        gcry_md_write(ctx, buffer, SEAL_DIR_HASH_ALGO_SIZE);
+    }
+    file.read(buffer, file_remain);
+    gcry_md_write(ctx, buffer, file_remain);
+    delete [] buffer;
+    
+    read(ctx);
+    
+    gcry_md_close(ctx);
+}
+
+digest::digest (std::fstream& file, unsigned long fSize, std::string metadata [], int n_metadata) {
+    gcry_md_hd_t ctx;
+    gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
+    
+    char * buffer = new char[SEAL_DIR_HASH_BLK_SIZE];
+    
+    file.seekg(0, std::ios::beg);
+    unsigned long file_remain;
+    for (file_remain = fSize;
+         file_remain >= SEAL_DIR_HASH_ALGO_SIZE;
+         file_remain = (fSize - file.tellg()))
+    {
+        file.read(buffer, SEAL_DIR_HASH_ALGO_SIZE);
+        gcry_md_write(ctx, buffer, SEAL_DIR_HASH_ALGO_SIZE);
+    }
+    file.read(buffer, file_remain);
+    gcry_md_write(ctx, buffer, file_remain);
+    delete [] buffer;
+    
+    for (int i = 0; i < n_metadata; i++) {
+        gcry_md_write(ctx, metadata[i].c_str(), metadata[i].length());
+    }
+    
+    read(ctx);
+    
+    gcry_md_close(ctx);
+}
+    
     digest::digest (unsigned * data, size_t length) {
         gcry_md_hd_t ctx;
         gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
@@ -197,60 +249,23 @@ namespace fs = std::filesystem;
             throw failed_algo();
         
         unsigned long file_size = fs::file_size(thePath);
-        char * buffer = new char[SEAL_DIR_HASH_BLK_SIZE];
-        
-        gcry_md_hd_t ctx;
-        gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
-        
-//        SEAL_DIR_GET_HASH(ctx, file, file_size, buffer, file_remain)
-        unsigned long file_remain;
-        for (file_remain = file_size;
-             file_remain >= SEAL_DIR_HASH_ALGO_SIZE;
-             file_remain = (file_size - file.tellg()))
-        {
-            file.read(buffer, SEAL_DIR_HASH_ALGO_SIZE);
-            gcry_md_write(ctx, buffer, SEAL_DIR_HASH_ALGO_SIZE);
-        }
-        file.read(buffer, file_remain);
-        gcry_md_write(ctx, buffer, file_remain);
-        
-        digest_raw.read(ctx);
-        
-        // digest with meta
-        gcry_md_reset(ctx);
-        gcry_md_enable(ctx, SEAL_DIR_HASH_ALGO);
-        file.seekg(0, std::ios::beg);
-        for (file_remain = file_size;
-             file_remain >= SEAL_DIR_HASH_ALGO_SIZE;
-             file_remain = (file_size - file.tellg()))
-        {
-            file.read(buffer, SEAL_DIR_HASH_ALGO_SIZE);
-            gcry_md_write(ctx, buffer, SEAL_DIR_HASH_ALGO_SIZE);
-        }
-        file.read(buffer, file_remain);
-        gcry_md_write(ctx, buffer, file_remain);
-//        SEAL_DIR_GET_HASH(ctx, file, file_size, buffer, file_remain)
+
+        digest_raw = std::move(*(new digest(file, file_size)));
         
         /* meta */
-        std::string
-        __fstr_size = std::to_string(file_size),
-        __fstr_name = thePath.filename().string(),
-        __fstr_perm = std::to_string(static_cast<int>(this->symlink_status().permissions()));
+        // an array of 3 properties: size, name, and mode.
         // TODO: include time
         // something like this:
         // __fstr_time = std::asctime(std::gmtime(std::chrono::system_clock::to_time_t(static_cast<std::chrono::system_clock>(this->last_write_time()))));
+        std::string metadata[3];
+        metadata[0] = std::to_string(file_size);
+        metadata[1] = thePath.filename().string();
+        metadata[2] = std::to_string(static_cast<int>(this->symlink_status().permissions()));
         
-        gcry_md_write(ctx, __fstr_name.c_str(), __fstr_name.length());
-        gcry_md_write(ctx, __fstr_perm.c_str(), __fstr_perm.length());
-        gcry_md_write(ctx, __fstr_size.c_str(), __fstr_size.length());
-//        gcry_md_write(ctx, __fstr_time.c_str(), __fstr_time.length());
-        
-        digest_meta.read(ctx);
+        digest_meta = std::move(*(new digest(file, file_size, metadata, 3)));
         /* end meta */
         
-        gcry_md_close(ctx);
         file.close();
-        delete [] buffer;
     }
     
     leaf::leaf (const fs::directory_entry& theEntry) : leaf(theEntry.path()) {}
