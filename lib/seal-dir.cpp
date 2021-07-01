@@ -293,8 +293,8 @@ struct raw_hash_node {
 /**
  Prep the `gcrypt` library with unsecured memory
  */
-void __attribute__((constructor)) prep_gcrypt();
-void prep_gcrypt (void) {
+void __attribute__((constructor))
+prep_gcrypt (void) {
     if (!gcry_check_version (NEED_LIBGCRYPT_VERSION)) {
         std::cerr << "libgcrypt is too old (need " << NEED_LIBGCRYPT_VERSION << ", have " << gcry_check_version (NULL) << ")\n";
         exit(2);
