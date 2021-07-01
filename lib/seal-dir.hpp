@@ -19,7 +19,6 @@
 
 #include <ctime>
 #include <cstdio>
-#include <ctime>
 
 #include <gcrypt.h>
 
