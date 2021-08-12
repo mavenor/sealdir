@@ -9,6 +9,52 @@
 
 #include "seal-dir.hpp"
 
+/**
+ Library initialisation (style depends on compiler)
+ */
+#ifdef __GNUC__ // for all GCC-compatible compilers...
+    void __attribute__((constructor)) prep_gcrypt();
+#elif defined _WIN32 // with MSVC, use DllMain
+// Prototype declaration for prep_gcrypt()
+void prep_gcrypt(void);
+
+// DllMain to prepare libgcyrpt only for new processes
+extern "C" BOOL WINAPI DllMain(
+    HINSTANCE const instance,
+    DWORD     const reason,
+    LPVOID    const reserved)
+{
+    switch (reason)
+    {
+    case DLL_PROCESS_ATTACH: // for new processes only
+        prep_gcrypt();
+        break;
+
+    case DLL_THREAD_ATTACH:
+    case DLL_THREAD_DETACH:
+    case DLL_PROCESS_DETACH:
+        break;
+    }
+    return TRUE;  // Successful DLL_PROCESS_ATTACH.
+}
+#else
+#define _GCRYPT_INIT_LINE ( __LINE__ + 4 )
+#error Libgcrypt needs to be initialised. This is not possible by default. See line _GCRYPT_INIT_LINE
+#endif
+
+/**
+ Prep the `gcrypt` library with unsecured memory
+ */
+void prep_gcrypt(void) {
+    if (!gcry_check_version(NEED_LIBGCRYPT_VERSION)) {
+        std::cerr << "libgcrypt is too old (need " << NEED_LIBGCRYPT_VERSION << ", found " << gcry_check_version(NULL) << ")\n";
+        exit(2);
+    }
+    gcry_control(GCRYCTL_DISABLE_SECMEM, 0);
+    gcry_control(GCRYCTL_INITIALIZATION_FINISHED, 0);
+}
+
+
 namespace fs = std::filesystem;
 
 // BEGIN definitions for digest
@@ -289,16 +335,3 @@ struct raw_hash_node {
     
     raw_hash_node (void) = delete;
 };
-
-/**
- Prep the `gcrypt` library with unsecured memory
- */
-void __attribute__((constructor)) prep_gcrypt();
-void prep_gcrypt (void) {
-    if (!gcry_check_version (NEED_LIBGCRYPT_VERSION)) {
-        std::cerr << "libgcrypt is too old (need " << NEED_LIBGCRYPT_VERSION << ", have " << gcry_check_version (NULL) << ")\n";
-        exit(2);
-      }
-    gcry_control(GCRYCTL_DISABLE_SECMEM, 0);
-    gcry_control(GCRYCTL_INITIALIZATION_FINISHED, 0);
-}
