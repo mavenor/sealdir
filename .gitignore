@@ -40,3 +40,9 @@ tmp/
 # Ignore XC UI stuff
 seal-dir.xcodeproj/project.xcworkspace
 seal-dir.xcodeproj/xcuserdata/
+
+# Ignore Visual Studio UI & caches stuff
+.vs/
+
+# Ignore "Build" directory
+Build/
