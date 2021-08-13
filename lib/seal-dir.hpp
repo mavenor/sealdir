@@ -1,6 +1,6 @@
 
 /**
- # The `seal-dir` library
+ The `seal-dir` library
  A tool to cryptographically seal the state of an entire directory
  
  © 2021 Shreedhar Hegde
@@ -28,7 +28,10 @@
 #define SEAL_DIR_HASH_ALGO GCRY_MD_SHA256
 #endif
 
+/// (n.) The block size to use when reading from the filesystem.
 #define SEAL_DIR_HASH_BLK_SIZE (4<<10) // 4 KiB
+
+/// (n.) The minimum version of `libgcrypt' needed. As of now, this is just set to the earliest version with all major bugs patched.
 #define NEED_LIBGCRYPT_VERSION "1.8.7"
 
 #define SEAL_DIR_GET_HASH(READY_CTX, FILE, F_SIZE, BUFFER, UL_TMP_VAR) \

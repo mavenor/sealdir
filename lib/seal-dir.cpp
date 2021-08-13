@@ -1,5 +1,5 @@
 /**
- # The `seal-dir` library
+ The `seal-dir` library
  A tool to cryptographically seal the state of an entire directory
  
  © 2021 Shreedhar Hegde
@@ -10,15 +10,20 @@
 #include "seal-dir.hpp"
 
 /**
- Library initialisation (style depends on compiler)
+ Library initialisation (style depends on compiler).
+ Dependancy `libgcrypt` needs to be initialised (see https://gnupg.org/documentation/manuals/gcrypt/Initializing-the-library.html)
  */
 #ifdef __GNUC__ // for all GCC-compatible compilers...
-    void __attribute__((constructor)) prep_gcrypt();
-#elif defined _WIN32 // with MSVC, use DllMain
-// Prototype declaration for prep_gcrypt()
+// Prototype declaration for `prep_gcrypt()' as this library's constructor
+void __attribute__((constructor)) prep_gcrypt();
+
+#elif defined (_WIN32) // with MSVC, use DllMain
+// MSVC automatically gets DllMain() to be called in the
+// ... heirarchy of initialisation (see https://docs.microsoft.com/en-us/cpp/build/run-time-library-behavior#initialize-a-dll)
+// Substitute (regular) prototype delcaration instead of __attribute__((constructor))
 void prep_gcrypt(void);
 
-// DllMain to prepare libgcyrpt only for new processes
+// DllMain from template to prepare libgcyrpt
 extern "C" BOOL WINAPI DllMain(
     HINSTANCE const instance,
     DWORD     const reason,
@@ -37,15 +42,22 @@ extern "C" BOOL WINAPI DllMain(
     }
     return TRUE;  // Successful DLL_PROCESS_ATTACH.
 }
+
 #else
-#define _GCRYPT_INIT_LINE ( __LINE__ + 4 )
-#error Libgcrypt needs to be initialised. This is not possible by default. See line _GCRYPT_INIT_LINE
+
+#error \
+Could not set up libgcrypt for automatic initialisation. Is your build system/compiler \
+somewhat unconventional? (If it isn't please file a bug report on GitHub) \
+For now, configure `lib/seal-dir.cpp' to the needs of your environment, such that it calls `prep_gcrypt()' \
+immediately on startup.
+
 #endif
 
 /**
- Prep the `gcrypt` library with unsecured memory
+ (v.) prep_gcrypt:
+ Initialise `libgcrypt` with unsecured memory.
  */
-void prep_gcrypt(void) {
+void prep_gcrypt (void) {
     if (!gcry_check_version(NEED_LIBGCRYPT_VERSION)) {
         std::cerr << "libgcrypt is too old (need " << NEED_LIBGCRYPT_VERSION << ", found " << gcry_check_version(NULL) << ")\n";
         exit(2);
