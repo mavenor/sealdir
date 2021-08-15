@@ -98,7 +98,7 @@
       <AdditionalDependencies>libgcrypt.imp;libgpg-error.imp;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>mklink /h %LOCALAPPDATA%\Programs\Common\$(TargetName)$(TargetExt) $(TargetPath)</Command>
+      <Command>if not exist %LOCALAPPDATA%\Programs\Common\$(TargetName)$(TargetExt) mklink /h %LOCALAPPDATA%\Programs\Common\$(TargetName)$(TargetExt) $(TargetPath)</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Link Target to user's AppData folder, which can be conveniently added to PATH</Message>
@@ -140,7 +140,7 @@
       <AdditionalDependencies>libgcrypt.imp;libgpg-error.imp;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>mklink /h %LOCALAPPDATA%\Programs\Common\$(TargetName)$(TargetExt) $(TargetPath)</Command>
+      <Command>if not exist %LOCALAPPDATA%\Programs\Common\$(TargetName)$(TargetExt) mklink /h %LOCALAPPDATA%\Programs\Common\$(TargetName)$(TargetExt) $(TargetPath)</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Link Target to user's AppData folder, which can be conveniently added to PATH</Message>
