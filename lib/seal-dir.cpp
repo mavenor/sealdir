@@ -274,8 +274,7 @@ namespace fs = std::filesystem;
         children = new bound_hash_node [nChildren];
         fs::directory_iterator entry(thePath);
         for (int i = 0; entry != fs::end(entry); entry++) {
-            switch (fs::file_type offender = entry->symlink_status().type()) {
-                    
+            switch (fs::file_type type = entry->symlink_status().type()) {
                 case fs::file_type::regular:
                 case fs::file_type::symlink:
                     children[i] = *(new leaf (entry->path()));
@@ -286,7 +285,7 @@ namespace fs = std::filesystem;
                     break;
                     
                 default:
-                    throw unsupported(offender);
+                    throw unsupported(type);
                     break;
             }
             
