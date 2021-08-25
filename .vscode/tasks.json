@@ -6,7 +6,10 @@
         {
             "label": "native-build",
             "detail": "Build project with native dev system (xcodebuild/MSBuild)",
-            "group": "build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "presentation": {
                 // Reveal the output only if unrecognized errors occur.
                 "reveal": "silent"
@@ -16,10 +19,10 @@
                 "command": "msbuild",
                 "args": [
                     // Ask msbuild to generate full paths for file names.
-                    "/property:GenerateFullPaths=true,Platform=x86",
-                    "/t:build",
+                    "-property:GenerateFullPaths=true,Platform=x86",
+                    "-t:build",
                     // Do not generate summary otherwise it leads to duplicate errors in Problems panel
-                    "/consoleloggerparameters:NoSummary"
+                    "-consoleloggerparameters:NoSummary"
                 ],
                 // Use the standard MS compiler pattern to detect errors, warnings and infos
                 "problemMatcher": "$msCompile",
