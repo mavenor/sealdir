@@ -42,8 +42,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <TargetName>lib$(ProjectName)</TargetName>
-    <OutDir>$(SolutionDir)\Build\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)\tmp\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)tmp\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -69,12 +69,6 @@
       <AdditionalDependencies>libgcrypt.imp;libgpg-error.imp;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>$(ProjectDir)lib\seal-dir.def</ModuleDefinitionFile>
     </Link>
-    <PostBuildEvent>
-      <Command>if not exist %LOCALAPPDATA%\Programs\Common\$(TargetName)$(TargetExt) mklink /h %LOCALAPPDATA%\Programs\Common\$(TargetName)$(TargetExt) $(TargetPath)</Command>
-    </PostBuildEvent>
-    <PostBuildEvent>
-      <Message>Link Target to user's AppData folder, which can be conveniently added to PATH</Message>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -103,4 +97,18 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <Target Name="Link Products" AfterTargets="Build">
+    <Message Text="Linking build products to appropriate LocalAppData folders..."/>
+    <Exec Condition="Exists('$(TargetPath)') And !Exists('$(LocalAppData)\Programs\Common\$(TargetName)$(TargetExt)')" Command="mklink /h $(LocalAppData)\Programs\Common\$(TargetName)$(TargetExt) $(TargetPath)" ContinueOnError="WarnAndContinue"/>
+    <Exec Condition="Exists('$(TargetDir)$(TargetName).lib') And !Exists('$(LocalAppData)\Libraries\Common\$(TargetName).lib')" Command="mklink /h $(LocalAppData)\Libraries\Common\$(TargetName).lib $(TargetDir)$(TargetName).lib" ContinueOnError="WarnAndContinue"/>
+    <Exec Condition="Exists('$(TargetDir)$(TargetName).exp') And !Exists('$(LocalAppData)\Libraries\Common\$(TargetName).exp')" Command="mklink /h $(LocalAppData)\Libraries\Common\$(TargetName).exp $(TargetDir)$(TargetName).exp" ContinueOnError="WarnAndContinue"/>
+    <Exec Condition="!Exists('$(LocalAppData)\Headers\Common\$(ProjectName)')" Command="mklink /h $(LocalAppData)\Headers\Common\$(ProjectName) $(ProjectDir)\lib\$(ProjectName).hpp" ContinueOnError="WarnAndContinue"/>
+  </Target>
+  <Target Name="Unlink Products" AfterTargets="Clean">
+    <Message Text="Removing (hard)links (if any)..." />
+    <Delete Condition="Exists('$(LocalAppData)\Programs\Common\$(TargetName)$(TargetExt)')" Files="$(LocalAppData)\Programs\Common\$(TargetName)$(TargetExt)" ContinueOnError="ErrorAndContinue"/>
+    <Delete Condition="Exists('$(LocalAppData)\Headers\Common\$(ProjectName)')" Files="$(LocalAppData)\Headers\Common\$(ProjectName)" ContinueOnError="ErrorAndContinue"/>
+    <Delete Condition="Exists('$(LocalAppData)\Libraries\Common\$(TargetName).lib')" Files="$(LocalAppData)\Libraries\Common\$(TargetName).lib" ContinueOnError="ErrorAndContinue"/>
+    <Delete Condition="Exists('$(LocalAppData)\Libraries\Common\$(TargetName).exp')" Files="$(LocalAppData)\Libraries\Common\$(TargetName).exp" ContinueOnError="ErrorAndContinue"/>
+  </Target>
 </Project>

@@ -11,22 +11,39 @@
                 "isDefault": true
             },
             "presentation": {
-                // Reveal the output only if unrecognized errors occur.
                 "reveal": "silent"
             },
             "windows": {
                 "type": "shell",
                 "command": "msbuild",
                 "args": [
-                    // Ask msbuild to generate full paths for file names.
                     "-property:GenerateFullPaths=true,Platform=x86",
                     "-t:build",
-                    // Do not generate summary otherwise it leads to duplicate errors in Problems panel
                     "-consoleloggerparameters:NoSummary"
                 ],
-                // Use the standard MS compiler pattern to detect errors, warnings and infos
-                "problemMatcher": "$msCompile",
+                "problemMatcher": "$msCompile"
             }
+        },
+        {
+            "group": "none",
+            "label": "Clean",
+            "detail": "Clean build directories",
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": false,
+                "clear": true
+            },
+            "windows": {
+                "type": "shell",
+                "command": "msbuild",
+                "args": [
+                    "-t:clean"
+                ]
+            },
+            "problemMatcher": []
         }
     ]
 }
