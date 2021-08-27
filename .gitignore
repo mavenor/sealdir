@@ -41,8 +41,9 @@ tmp/
 seal-dir.xcodeproj/project.xcworkspace
 seal-dir.xcodeproj/xcuserdata/
 
-# Ignore Visual Studio UI & caches stuff
+# Ignore Visual Studio UI, caches, and user-specific stuff
 .vs/
+**.vcxproj.user
 
 # Ignore "Build" directory
 Build/
