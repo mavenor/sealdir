@@ -67,6 +67,7 @@
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(ProgramFiles)\GnuPG\bin\;$(ProgramFiles)\GnuPG\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libgcrypt.imp;libgpg-error.imp;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>$(ProjectDir)lib\seal-dir.def</ModuleDefinitionFile>
     </Link>
     <PostBuildEvent>
       <Command>if not exist %LOCALAPPDATA%\Programs\Common\$(TargetName)$(TargetExt) mklink /h %LOCALAPPDATA%\Programs\Common\$(TargetName)$(TargetExt) $(TargetPath)</Command>
@@ -95,6 +96,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\seal-dir.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="lib\seal-dir.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
