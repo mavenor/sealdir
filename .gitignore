@@ -47,3 +47,7 @@ seal-dir.xcodeproj/xcuserdata/
 
 # Ignore "Build" directory
 Build/
+
+# VS Code Settings (except tasks), as these are often environment-dependent
+.vscode/**
+!.vscode/tasks.json
