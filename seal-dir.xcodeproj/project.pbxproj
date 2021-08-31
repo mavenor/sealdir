@@ -9,38 +9,16 @@
 /* Begin PBXBuildFile section */
 		E90C03FA2654924D0078D0DB /* seal-dir.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7A15264AF40B00C72A1F /* seal-dir.cpp */; };
 		E90C03FB265492500078D0DB /* seal-dir.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E9BE7A16264AF40B00C72A1F /* seal-dir.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
-		E92D38A626560C1200AB2A99 /* tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90C03F726548D4D0078D0DB /* tests.cpp */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		E92D389D26560C0200AB2A99 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		E90C03F026548CB50078D0DB /* libsealdir.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libsealdir.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		E90C03F726548D4D0078D0DB /* tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tests.cpp; sourceTree = "<group>"; };
-		E92D389F26560C0200AB2A99 /* seal-dir-eval */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "seal-dir-eval"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9BE7A15264AF40B00C72A1F /* seal-dir.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "seal-dir.cpp"; sourceTree = "<group>"; };
 		E9BE7A16264AF40B00C72A1F /* seal-dir.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = "seal-dir.hpp"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		E90C03EE26548CB50078D0DB /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E92D389C26560C0200AB2A99 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -64,7 +42,6 @@
 			isa = PBXGroup;
 			children = (
 				E90C03F026548CB50078D0DB /* libsealdir.dylib */,
-				E92D389F26560C0200AB2A99 /* seal-dir-eval */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -79,7 +56,6 @@
 		E92D389A26560BA500AB2A99 /* tmp */ = {
 			isa = PBXGroup;
 			children = (
-				E90C03F726548D4D0078D0DB /* tests.cpp */,
 			);
 			path = tmp;
 			sourceTree = "<group>";
@@ -124,23 +100,6 @@
 			productReference = E90C03F026548CB50078D0DB /* libsealdir.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
-		E92D389E26560C0200AB2A99 /* seal-dir-eval */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E92D38A326560C0200AB2A99 /* Build configuration list for PBXNativeTarget "seal-dir-eval" */;
-			buildPhases = (
-				E92D389B26560C0200AB2A99 /* Sources */,
-				E92D389C26560C0200AB2A99 /* Frameworks */,
-				E92D389D26560C0200AB2A99 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "seal-dir-eval";
-			productName = "seal-dir-eval";
-			productReference = E92D389F26560C0200AB2A99 /* seal-dir-eval */;
-			productType = "com.apple.product-type.tool";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -150,9 +109,6 @@
 				LastUpgradeCheck = 1250;
 				TargetAttributes = {
 					E90C03EF26548CB50078D0DB = {
-						CreatedOnToolsVersion = 12.5;
-					};
-					E92D389E26560C0200AB2A99 = {
 						CreatedOnToolsVersion = 12.5;
 					};
 				};
@@ -171,7 +127,6 @@
 			projectRoot = "";
 			targets = (
 				E90C03EF26548CB50078D0DB /* sealdir */,
-				E92D389E26560C0200AB2A99 /* seal-dir-eval */,
 			);
 		};
 /* End PBXProject section */
@@ -182,14 +137,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E90C03FA2654924D0078D0DB /* seal-dir.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E92D389B26560C0200AB2A99 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E92D38A626560C1200AB2A99 /* tests.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,40 +292,6 @@
 			};
 			name = Release;
 		};
-		E92D38A426560C0200AB2A99 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CODE_SIGN_STYLE = Automatic;
-				LIBRARY_SEARCH_PATHS = (
-					/usr/local/lib,
-					"${HOME}/Library/Developer/Xcode/DerivedData/Build/Products/Debug",
-				);
-				OTHER_LDFLAGS = (
-					"-lsealdir",
-					"-lgcrypt",
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		E92D38A526560C0200AB2A99 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CODE_SIGN_STYLE = Automatic;
-				LIBRARY_SEARCH_PATHS = (
-					/usr/local/lib,
-					"${HOME}/Library/Developer/Xcode/DerivedData/Build/Products/Debug",
-				);
-				OTHER_LDFLAGS = (
-					"-lsealdir",
-					"-lgcrypt",
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -396,15 +309,6 @@
 			buildConfigurations = (
 				E90C03F226548CB50078D0DB /* Debug */,
 				E90C03F326548CB50078D0DB /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E92D38A326560C0200AB2A99 /* Build configuration list for PBXNativeTarget "seal-dir-eval" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E92D38A426560C0200AB2A99 /* Debug */,
-				E92D38A526560C0200AB2A99 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
