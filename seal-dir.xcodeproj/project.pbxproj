@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E90C03FA2654924D0078D0DB /* seal-dir.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7A15264AF40B00C72A1F /* seal-dir.cpp */; };
-		E90C03FB265492500078D0DB /* seal-dir.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E9BE7A16264AF40B00C72A1F /* seal-dir.hpp */; };
+		E90C03FB265492500078D0DB /* seal-dir.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E9BE7A16264AF40B00C72A1F /* seal-dir.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		E92D38A626560C1200AB2A99 /* tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E90C03F726548D4D0078D0DB /* tests.cpp */; };
 /* End PBXBuildFile section */
 
