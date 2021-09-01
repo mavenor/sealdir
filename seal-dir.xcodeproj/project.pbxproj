@@ -33,7 +33,6 @@
 			children = (
 				E92D389A26560BA500AB2A99 /* tmp */,
 				E90C03F526548D4D0078D0DB /* src */,
-				E9BE7A14264AF3B900C72A1F /* lib */,
 				E9009436264AE6F6004C45C2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -49,6 +48,8 @@
 		E90C03F526548D4D0078D0DB /* src */ = {
 			isa = PBXGroup;
 			children = (
+				E9BE7A15264AF40B00C72A1F /* seal-dir.cpp */,
+				E9BE7A16264AF40B00C72A1F /* seal-dir.hpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -58,15 +59,6 @@
 			children = (
 			);
 			path = tmp;
-			sourceTree = "<group>";
-		};
-		E9BE7A14264AF3B900C72A1F /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				E9BE7A15264AF40B00C72A1F /* seal-dir.cpp */,
-				E9BE7A16264AF40B00C72A1F /* seal-dir.hpp */,
-			);
-			path = lib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

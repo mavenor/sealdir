@@ -48,7 +48,7 @@ extern "C" BOOL WINAPI DllMain(
 #error \
 Could not set up libgcrypt for automatic initialisation. Is your build system/compiler \
 somewhat unconventional? (If it isn't please file a bug report on GitHub) \
-For now, configure `lib/seal-dir.cpp' to the needs of your environment, such that it calls `prep_gcrypt()' \
+For now, configure `src/seal-dir.cpp' to the needs of your environment, such that it calls `prep_gcrypt()' \
 immediately on startup.
 
 #endif

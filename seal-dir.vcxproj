@@ -65,9 +65,9 @@
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>$(ProgramFiles)\GnuPG\bin\;$(ProgramFiles)\GnuPG\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProgramFiles)\GnuPG\bin\;$(ProgramFiles)\GnuPG\src\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libgcrypt.imp;libgpg-error.imp;%(AdditionalDependencies)</AdditionalDependencies>
-      <ModuleDefinitionFile>$(ProjectDir)lib\seal-dir.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>$(ProjectDir)src\seal-dir.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -86,13 +86,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="lib\seal-dir.cpp" />
+    <ClCompile Include="src\seal-dir.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="lib\seal-dir.hpp" />
+    <ClInclude Include="src\seal-dir.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="lib\seal-dir.def" />
+    <None Include="src\seal-dir.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
@@ -102,7 +102,7 @@
     <Exec Condition="Exists('$(TargetPath)') And !Exists('$(LocalAppData)\Programs\Common\$(TargetName)$(TargetExt)')" Command="mklink /h $(LocalAppData)\Programs\Common\$(TargetName)$(TargetExt) $(TargetPath)" ContinueOnError="WarnAndContinue"/>
     <Exec Condition="Exists('$(TargetDir)$(TargetName).lib') And !Exists('$(LocalAppData)\Libraries\Common\$(TargetName).lib')" Command="mklink /h $(LocalAppData)\Libraries\Common\$(TargetName).lib $(TargetDir)$(TargetName).lib" ContinueOnError="WarnAndContinue"/>
     <Exec Condition="Exists('$(TargetDir)$(TargetName).exp') And !Exists('$(LocalAppData)\Libraries\Common\$(TargetName).exp')" Command="mklink /h $(LocalAppData)\Libraries\Common\$(TargetName).exp $(TargetDir)$(TargetName).exp" ContinueOnError="WarnAndContinue"/>
-    <Exec Condition="!Exists('$(LocalAppData)\Headers\Common\$(ProjectName)')" Command="mklink /h $(LocalAppData)\Headers\Common\$(ProjectName) $(ProjectDir)\lib\$(ProjectName).hpp" ContinueOnError="WarnAndContinue"/>
+    <Exec Condition="!Exists('$(LocalAppData)\Headers\Common\$(ProjectName)')" Command="mklink /h $(LocalAppData)\Headers\Common\$(ProjectName) $(ProjectDir)\src\$(ProjectName).hpp" ContinueOnError="WarnAndContinue"/>
   </Target>
   <Target Name="Unlink Products" AfterTargets="Clean">
     <Message Text="Removing (hard)links (if any)..." />

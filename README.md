@@ -16,11 +16,11 @@ Relies on the [GnuPG](https://gnupg.org) project’s crypto library ([`libgcrypt
 3. Build!
     - macOS (requires Xcode CLT <small>or a separate installation of `clang` or `gcc`</small>):
         ```sh
-        clang++ -dylib -std=gnu++17 ./lib/* -o libsealdir.dylib
+        clang++ -dylib -std=gnu++17 ./src/* -o libsealdir.dylib
         ```
     - Linux:
         ```sh
-        g++ -flinker-output=dyn -std=gnu++17 ./lib/* -o libsealdir.so
+        g++ -flinker-output=dyn -std=gnu++17 ./src/* -o libsealdir.so
         ```
 
 **N.B.:** `libgcrypt` is distributed under the **[GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0.txt)**, which has different terms and distribution-restrictions from the **BSD “3-Clause” license** used in the rest of this software.
