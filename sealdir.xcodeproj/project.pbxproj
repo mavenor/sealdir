@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E90C03FA2654924D0078D0DB /* seal-dir.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7A15264AF40B00C72A1F /* seal-dir.cpp */; };
-		E90C03FB265492500078D0DB /* seal-dir.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E9BE7A16264AF40B00C72A1F /* seal-dir.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		E90C03FA2654924D0078D0DB /* sealdir.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E9BE7A15264AF40B00C72A1F /* sealdir.cpp */; };
+		E90C03FB265492500078D0DB /* sealdir.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E9BE7A16264AF40B00C72A1F /* sealdir.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E90C03F026548CB50078D0DB /* libsealdir.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libsealdir.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9BE7A15264AF40B00C72A1F /* seal-dir.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "seal-dir.cpp"; sourceTree = "<group>"; };
-		E9BE7A16264AF40B00C72A1F /* seal-dir.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = "seal-dir.hpp"; sourceTree = "<group>"; };
+		E9BE7A15264AF40B00C72A1F /* sealdir.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "sealdir.cpp"; sourceTree = "<group>"; };
+		E9BE7A16264AF40B00C72A1F /* sealdir.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = "sealdir.hpp"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,8 +48,8 @@
 		E90C03F526548D4D0078D0DB /* src */ = {
 			isa = PBXGroup;
 			children = (
-				E9BE7A15264AF40B00C72A1F /* seal-dir.cpp */,
-				E9BE7A16264AF40B00C72A1F /* seal-dir.hpp */,
+				E9BE7A15264AF40B00C72A1F /* sealdir.cpp */,
+				E9BE7A16264AF40B00C72A1F /* sealdir.hpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -68,7 +68,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E90C03FB265492500078D0DB /* seal-dir.hpp in Headers */,
+				E90C03FB265492500078D0DB /* sealdir.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,7 +105,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E9009430264AE6F6004C45C2 /* Build configuration list for PBXProject "seal-dir" */;
+			buildConfigurationList = E9009430264AE6F6004C45C2 /* Build configuration list for PBXProject "sealdir" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -128,7 +128,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E90C03FA2654924D0078D0DB /* seal-dir.cpp in Sources */,
+				E90C03FA2654924D0078D0DB /* sealdir.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,7 +287,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E9009430264AE6F6004C45C2 /* Build configuration list for PBXProject "seal-dir" */ = {
+		E9009430264AE6F6004C45C2 /* Build configuration list for PBXProject "sealdir" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E900943A264AE6F6004C45C2 /* Debug */,

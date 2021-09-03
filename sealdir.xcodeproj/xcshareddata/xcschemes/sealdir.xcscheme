@@ -27,7 +27,7 @@
                BlueprintIdentifier = "E90C03BF265430FA0078D0DB"
                BuildableName = "libsealdir.dylib"
                BlueprintName = "sealdir"
-               ReferencedContainer = "container:seal-dir.xcodeproj">
+               ReferencedContainer = "container:sealdir.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -63,7 +63,7 @@
             BlueprintIdentifier = "E90C03BF265430FA0078D0DB"
             BuildableName = "libsealdir.dylib"
             BlueprintName = "sealdir"
-            ReferencedContainer = "container:seal-dir.xcodeproj">
+            ReferencedContainer = "container:sealdir.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

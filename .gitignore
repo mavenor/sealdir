@@ -38,8 +38,8 @@
 tmp/
 
 # Ignore XC UI stuff
-seal-dir.xcodeproj/project.xcworkspace
-seal-dir.xcodeproj/xcuserdata/
+sealdir.xcodeproj/project.xcworkspace
+sealdir.xcodeproj/xcuserdata/
 
 # Ignore Visual Studio UI, caches, and user-specific stuff
 .vs/

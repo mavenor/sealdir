@@ -1,4 +1,4 @@
-LIBRARY libseal-dir
+LIBRARY libsealdir
 EXPORTS
     ?print@digest@@QAEAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ
     ??0tree@@QAE@ABVdirectory_entry@filesystem@std@@@Z

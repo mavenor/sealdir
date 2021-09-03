@@ -1,6 +1,6 @@
 
 /**
- The `seal-dir` library
+ The `sealdir` library
  A tool to cryptographically seal the state of an entire directory
  
  © 2021 Shreedhar Hegde

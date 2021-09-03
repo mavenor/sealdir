@@ -15,17 +15,17 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\seal-dir.cpp">
+    <ClCompile Include="src\sealdir.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\seal-dir.hpp">
+    <ClInclude Include="src\sealdir.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\seal-dir.def">
+    <None Include="src\sealdir.def">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
