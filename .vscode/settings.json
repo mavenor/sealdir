@@ -1,0 +1,12 @@
+{
+    "cSpell.words": [
+        "GCRYCTL",
+        "fstr",
+        "gcry"
+    ],
+    "files.associations": {
+        "iostream": "cpp",
+        "fstream": "cpp",
+        "filesystem": "cpp"
+    }
+}
