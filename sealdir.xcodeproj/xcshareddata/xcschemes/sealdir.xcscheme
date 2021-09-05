@@ -5,16 +5,6 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
-      <PostActions>
-         <ExecutionAction
-            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
-            <ActionContent
-               title = "Run Script"
-               scriptText = "ln -s \&#10;    ${HOME}/Library/Developer/Xcode/DerivedData/Build/Products/Debug/libsealdir.dylib \&#10;    ${HOME}/brewery/lib/libsealdir.dylib&#10;"
-               shellToInvoke = "/bin/zsh">
-            </ActionContent>
-         </ExecutionAction>
-      </PostActions>
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -24,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E90C03BF265430FA0078D0DB"
+               BlueprintIdentifier = "E90C03EF26548CB50078D0DB"
                BuildableName = "libsealdir.dylib"
                BlueprintName = "sealdir"
                ReferencedContainer = "container:sealdir.xcodeproj">
@@ -60,7 +50,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E90C03BF265430FA0078D0DB"
+            BlueprintIdentifier = "E90C03EF26548CB50078D0DB"
             BuildableName = "libsealdir.dylib"
             BlueprintName = "sealdir"
             ReferencedContainer = "container:sealdir.xcodeproj">
