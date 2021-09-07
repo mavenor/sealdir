@@ -14,31 +14,29 @@
  Dependancy `libgcrypt` needs to be initialised (see https://gnupg.org/documentation/manuals/gcrypt/Initializing-the-library.html)
  */
 #ifdef __GNUC__ // for all GCC-compatible compilers...
-// Prototype declaration for `prep_gcrypt()' as this library's constructor
+                // Prototype declaration for `prep_gcrypt()' as this library's constructor
 void __attribute__((constructor)) prep_gcrypt();
 
 #elif defined (_WIN32) // with MSVC, use DllMain
-// MSVC automatically gets DllMain() to be called in the
-// ... heirarchy of initialisation (see https://docs.microsoft.com/en-us/cpp/build/run-time-library-behavior#initialize-a-dll)
-// Substitute (regular) prototype delcaration instead of __attribute__((constructor))
+                       // MSVC automatically gets DllMain() to be called in the
+                       // ... heirarchy of initialisation (see https://docs.microsoft.com/en-us/cpp/build/run-time-library-behavior#initialize-a-dll)
+                       // Substitute (regular) prototype delcaration instead of __attribute__((constructor))
 void prep_gcrypt(void);
 
 // DllMain from template to prepare libgcyrpt
 extern "C" BOOL WINAPI DllMain(
-    HINSTANCE const instance,
-    DWORD     const reason,
-    LPVOID    const reserved)
-{
-    switch (reason)
-    {
-    case DLL_PROCESS_ATTACH: // for new processes only
-        prep_gcrypt();
-        break;
-
-    case DLL_THREAD_ATTACH:
-    case DLL_THREAD_DETACH:
-    case DLL_PROCESS_DETACH:
-        break;
+                               HINSTANCE const instance,
+                               DWORD     const reason,
+                               LPVOID    const reserved) {
+    switch (reason) {
+        case DLL_PROCESS_ATTACH: // for new processes only
+            prep_gcrypt();
+            break;
+            
+        case DLL_THREAD_ATTACH:
+        case DLL_THREAD_DETACH:
+        case DLL_PROCESS_DETACH:
+            break;
     }
     return TRUE;  // Successful DLL_PROCESS_ATTACH.
 }
@@ -71,188 +69,188 @@ namespace fs = std::filesystem;
 
 // BEGIN definitions for digest
 
-    // CONSTRUCTORS:
-    // -------------
+// CONSTRUCTORS:
+// -------------
 
 sealdir::digest::digest (std::string& message) {
-        gcry_md_hd_t ctx;
-        gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
-        gcry_md_write(ctx, message.c_str(), message.size());
-        
-        read(ctx);
-        
-        gcry_md_close(ctx);
-    }
+    gcry_md_hd_t ctx;
+    gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
+    gcry_md_write(ctx, message.c_str(), message.size());
+    
+    read(ctx);
+    
+    gcry_md_close(ctx);
+}
 
 sealdir::digest::digest (unsigned * data, size_t length) {
-        gcry_md_hd_t ctx;
-        gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
-        gcry_md_write(ctx, &data, length);
-        
-        read(ctx);
-        
-        gcry_md_close(ctx);
-    }
+    gcry_md_hd_t ctx;
+    gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
+    gcry_md_write(ctx, &data, length);
+    
+    read(ctx);
+    
+    gcry_md_close(ctx);
+}
 
-    // OPERATORS:
-    // ----------
+// OPERATORS:
+// ----------
 
 sealdir::digest& sealdir::digest::operator+ (digest& other) {
-        unsigned * _total = new unsigned [SEAL_DIR_HASH_ALGO_SIZE*2];
-        for (unsigned long i = 0; i < SEAL_DIR_HASH_ALGO_SIZE; i++) {
-            _total[i]                           = this->numeric[i];
-            _total[i + SEAL_DIR_HASH_ALGO_SIZE] = other.numeric[i];
-        }
-        return *(new digest(_total, SEAL_DIR_HASH_ALGO_SIZE*2));
+    unsigned * _total = new unsigned [SEAL_DIR_HASH_ALGO_SIZE*2];
+    for (unsigned long i = 0; i < SEAL_DIR_HASH_ALGO_SIZE; i++) {
+        _total[i]                           = this->numeric[i];
+        _total[i + SEAL_DIR_HASH_ALGO_SIZE] = other.numeric[i];
     }
+    return *(new digest(_total, SEAL_DIR_HASH_ALGO_SIZE*2));
+}
 
 void sealdir::digest::operator+= (digest& other) {
-        gcry_md_hd_t ctx;
-        gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
-        gcry_md_write(ctx, this->numeric, SEAL_DIR_HASH_ALGO_SIZE);
-        gcry_md_write(ctx, other.numeric, SEAL_DIR_HASH_ALGO_SIZE);
-        
-        read(ctx);
-        
-        gcry_md_close(ctx);
-
-        return;
-    }
+    gcry_md_hd_t ctx;
+    gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
+    gcry_md_write(ctx, this->numeric, SEAL_DIR_HASH_ALGO_SIZE);
+    gcry_md_write(ctx, other.numeric, SEAL_DIR_HASH_ALGO_SIZE);
+    
+    read(ctx);
+    
+    gcry_md_close(ctx);
+    
+    return;
+}
 
 bool sealdir::digest::operator== (digest& other) {
-        return (numeric == other.numeric);
-    }
+    return (numeric == other.numeric);
+}
 
 bool sealdir::digest::operator!= (digest& other) {
-        return (numeric != other.numeric);
-    }
+    return (numeric != other.numeric);
+}
 
 bool sealdir::digest::operator> (digest& other) {
-        return (numeric > other.numeric);
-    }
+    return (numeric > other.numeric);
+}
 
 bool sealdir::digest::operator>= (digest& other) {
-        return (numeric >= other.numeric);
-    }
+    return (numeric >= other.numeric);
+}
 
 bool sealdir::digest::operator< (digest& other) {
-        return (numeric < other.numeric);
-    }
+    return (numeric < other.numeric);
+}
 
 bool sealdir::digest::operator<= (digest& other) {
-        return (numeric <= other.numeric);
-    }
+    return (numeric <= other.numeric);
+}
 
 void sealdir::digest::read (gcry_md_hd_t& ctx) {
-        numeric = new unsigned [SEAL_DIR_HASH_ALGO_SIZE];
-        unsigned char * _hash = gcry_md_read(ctx, SEAL_DIR_HASH_ALGO);
-        
-        for (unsigned long i = 0; i < SEAL_DIR_HASH_ALGO_SIZE; i++)
-            numeric[i] = std::move(_hash[i]);
-        
-        return;
-    }
+    numeric = new unsigned [SEAL_DIR_HASH_ALGO_SIZE];
+    unsigned char * _hash = gcry_md_read(ctx, SEAL_DIR_HASH_ALGO);
+    
+    for (unsigned long i = 0; i < SEAL_DIR_HASH_ALGO_SIZE; i++)
+        numeric[i] = std::move(_hash[i]);
+    
+    return;
+}
 
 std::string& sealdir::digest::print (void) {
-        std::stringstream _hex_value;
-        for (unsigned long i = 0; i < SEAL_DIR_HASH_ALGO_SIZE; i++)
-            _hex_value << std::hex << std::setw(2) << std::setfill('0') << numeric[i];
-        
-        std::string& output = *(new std::string);
-        _hex_value >> output;
-        return output;
-    }
+    std::stringstream _hex_value;
+    for (unsigned long i = 0; i < SEAL_DIR_HASH_ALGO_SIZE; i++)
+        _hex_value << std::hex << std::setw(2) << std::setfill('0') << numeric[i];
+    
+    std::string& output = *(new std::string);
+    _hex_value >> output;
+    return output;
+}
 
 // END definitions for digest
 
 
 // BEGIN definitions for bound_hash_node
-    
-    // OPERATORS:
-    // ----------
+
+// OPERATORS:
+// ----------
 bool sealdir::bound_hash_node::operator== (bound_hash_node& other) {
-        if (this->digest_raw == other.digest_raw)
-            return true;
-        else
-            return false;
-    }
-    
-    // CONSTRUCTORS:
-    // -------------
+    if (this->digest_raw == other.digest_raw)
+        return true;
+    else
+        return false;
+}
+
+// CONSTRUCTORS:
+// -------------
 sealdir::bound_hash_node::bound_hash_node (const fs::path& thePath) : directory_entry(thePath) {
-        nChildren = 0;
-        children = nullptr;
-    }
-    
+    nChildren = 0;
+    children = nullptr;
+}
+
 sealdir::bound_hash_node::bound_hash_node (const fs::directory_entry& theEntry) : bound_hash_node(theEntry.path()) {}
-    
+
 // END definitions for bound_hash_node
 
 // BEGIN definitions for leaf
 
 sealdir::leaf::leaf (const fs::path& thePath) : bound_hash_node(thePath) {
-        file.open(thePath, readOnly);
-        file.exceptions(dirty);
-        if (gcry_md_test_algo(SEAL_DIR_HASH_ALGO) > 0)
-            throw failed_algo();
-        
-        unsigned long file_size = fs::file_size(thePath);
-        char * buffer = new char[SEAL_DIR_HASH_BLK_SIZE];
-        
-        gcry_md_hd_t ctx;
-        gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
-        
-//        SEAL_DIR_GET_HASH(ctx, file, file_size, buffer, file_remain)
-        unsigned long file_remain;
-        for (file_remain = file_size;
-             file_remain >= SEAL_DIR_HASH_ALGO_SIZE;
-             file_remain = (file_size - file.tellg()))
-        {
-            file.read(buffer, SEAL_DIR_HASH_ALGO_SIZE);
-            gcry_md_write(ctx, buffer, SEAL_DIR_HASH_ALGO_SIZE);
-        }
-        file.read(buffer, file_remain);
-        gcry_md_write(ctx, buffer, file_remain);
-        
-        digest_raw.read(ctx);
-        
-        // digest with meta
-        gcry_md_reset(ctx);
-        gcry_md_enable(ctx, SEAL_DIR_HASH_ALGO);
-        file.seekg(0, std::ios::beg);
-        for (file_remain = file_size;
-             file_remain >= SEAL_DIR_HASH_ALGO_SIZE;
-             file_remain = (file_size - file.tellg()))
-        {
-            file.read(buffer, SEAL_DIR_HASH_ALGO_SIZE);
-            gcry_md_write(ctx, buffer, SEAL_DIR_HASH_ALGO_SIZE);
-        }
-        file.read(buffer, file_remain);
-        gcry_md_write(ctx, buffer, file_remain);
-//        SEAL_DIR_GET_HASH(ctx, file, file_size, buffer, file_remain)
-        
-        /* meta */
-        std::string
-        __fstr_size = std::to_string(file_size),
-        __fstr_name = thePath.filename().string(),
-        __fstr_perm = std::to_string(static_cast<int>(this->symlink_status().permissions()));
-        // TODO: include time
-        // something like this:
-        // __fstr_time = std::asctime(std::gmtime(std::chrono::system_clock::to_time_t(static_cast<std::chrono::system_clock>(this->last_write_time()))));
-        
-        gcry_md_write(ctx, __fstr_name.c_str(), __fstr_name.length());
-        gcry_md_write(ctx, __fstr_perm.c_str(), __fstr_perm.length());
-        gcry_md_write(ctx, __fstr_size.c_str(), __fstr_size.length());
-//        gcry_md_write(ctx, __fstr_time.c_str(), __fstr_time.length());
-        
-        digest_meta.read(ctx);
-        /* end meta */
-        
-        gcry_md_close(ctx);
-        file.close();
-        delete [] buffer;
-    }
+    file.open(thePath, readOnly);
+    file.exceptions(dirty);
+    if (gcry_md_test_algo(SEAL_DIR_HASH_ALGO) > 0)
+        throw failed_algo();
     
+    unsigned long file_size = fs::file_size(thePath);
+    char * buffer = new char[SEAL_DIR_HASH_BLK_SIZE];
+    
+    gcry_md_hd_t ctx;
+    gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
+    
+    //        SEAL_DIR_GET_HASH(ctx, file, file_size, buffer, file_remain)
+    unsigned long file_remain;
+    for (file_remain = file_size;
+         file_remain >= SEAL_DIR_HASH_ALGO_SIZE;
+         file_remain = (file_size - file.tellg()))
+    {
+        file.read(buffer, SEAL_DIR_HASH_ALGO_SIZE);
+        gcry_md_write(ctx, buffer, SEAL_DIR_HASH_ALGO_SIZE);
+    }
+    file.read(buffer, file_remain);
+    gcry_md_write(ctx, buffer, file_remain);
+    
+    digest_raw.read(ctx);
+    
+    // digest with meta
+    gcry_md_reset(ctx);
+    gcry_md_enable(ctx, SEAL_DIR_HASH_ALGO);
+    file.seekg(0, std::ios::beg);
+    for (file_remain = file_size;
+         file_remain >= SEAL_DIR_HASH_ALGO_SIZE;
+         file_remain = (file_size - file.tellg()))
+    {
+        file.read(buffer, SEAL_DIR_HASH_ALGO_SIZE);
+        gcry_md_write(ctx, buffer, SEAL_DIR_HASH_ALGO_SIZE);
+    }
+    file.read(buffer, file_remain);
+    gcry_md_write(ctx, buffer, file_remain);
+    //        SEAL_DIR_GET_HASH(ctx, file, file_size, buffer, file_remain)
+    
+    /* meta */
+    std::string
+    __fstr_size = std::to_string(file_size),
+    __fstr_name = thePath.filename().string(),
+    __fstr_perm = std::to_string(static_cast<int>(this->symlink_status().permissions()));
+    // TODO: include time
+    // something like this:
+    // __fstr_time = std::asctime(std::gmtime(std::chrono::system_clock::to_time_t(static_cast<std::chrono::system_clock>(this->last_write_time()))));
+    
+    gcry_md_write(ctx, __fstr_name.c_str(), __fstr_name.length());
+    gcry_md_write(ctx, __fstr_perm.c_str(), __fstr_perm.length());
+    gcry_md_write(ctx, __fstr_size.c_str(), __fstr_size.length());
+    //        gcry_md_write(ctx, __fstr_time.c_str(), __fstr_time.length());
+    
+    digest_meta.read(ctx);
+    /* end meta */
+    
+    gcry_md_close(ctx);
+    file.close();
+    delete [] buffer;
+}
+
 sealdir::leaf::leaf (const fs::directory_entry& theEntry) : leaf(theEntry.path()) {}
 sealdir::leaf::leaf (const leaf& other) : bound_hash_node(other) {};
 sealdir::leaf::leaf (leaf&& other) noexcept : bound_hash_node(other) {};
@@ -262,42 +260,42 @@ sealdir::leaf::leaf (leaf&& other) noexcept : bound_hash_node(other) {};
 // BEGIN definitions for tree
 
 sealdir::tree::tree (const fs::path& thePath) : bound_hash_node(thePath) {
-        gcry_md_hd_t ctx_raw;
-        gcry_md_open(&ctx_raw, SEAL_DIR_HASH_ALGO, 0);
-        
-        gcry_md_hd_t ctx_meta;
-        gcry_md_open(&ctx_meta, SEAL_DIR_HASH_ALGO, 0);
-        
-        for (directory_entry child : fs::directory_iterator(thePath))
-            nChildren++;
-        
-        children = new bound_hash_node [nChildren];
-        fs::directory_iterator entry(thePath);
-        for (int i = 0; entry != fs::end(entry); entry++) {
-            switch (fs::file_type type = entry->symlink_status().type()) {
-                case fs::file_type::regular:
-                case fs::file_type::symlink:
-                    children[i] = *(new leaf (entry->path()));
-                    break;
-                    
-                case fs::file_type::directory:
-                    children[i] = *(new tree (entry->path()));
-                    break;
-                    
-                default:
-                    throw unsupported(type);
-                    break;
-            }
-            
-            // hash the childrens’ hashes
-            gcry_md_write(ctx_raw, children[i].digest_raw.numeric, SEAL_DIR_HASH_ALGO_SIZE);
-            gcry_md_write(ctx_meta, children[i].digest_meta.numeric, SEAL_DIR_HASH_ALGO_SIZE);
+    gcry_md_hd_t ctx_raw;
+    gcry_md_open(&ctx_raw, SEAL_DIR_HASH_ALGO, 0);
+    
+    gcry_md_hd_t ctx_meta;
+    gcry_md_open(&ctx_meta, SEAL_DIR_HASH_ALGO, 0);
+    
+    for (directory_entry child : fs::directory_iterator(thePath))
+        nChildren++;
+    
+    children = new bound_hash_node [nChildren];
+    fs::directory_iterator entry(thePath);
+    for (int i = 0; entry != fs::end(entry); entry++) {
+        switch (fs::file_type type = entry->symlink_status().type()) {
+            case fs::file_type::regular:
+            case fs::file_type::symlink:
+                children[i] = *(new leaf (entry->path()));
+                break;
+                
+            case fs::file_type::directory:
+                children[i] = *(new tree (entry->path()));
+                break;
+                
+            default:
+                throw unsupported(type);
+                break;
         }
         
-        digest_raw.read(ctx_raw);
-        digest_meta.read(ctx_meta);
+        // hash the childrens’ hashes
+        gcry_md_write(ctx_raw, children[i].digest_raw.numeric, SEAL_DIR_HASH_ALGO_SIZE);
+        gcry_md_write(ctx_meta, children[i].digest_meta.numeric, SEAL_DIR_HASH_ALGO_SIZE);
     }
     
+    digest_raw.read(ctx_raw);
+    digest_meta.read(ctx_meta);
+}
+
 sealdir::tree::tree (const fs::directory_entry& theEntry) : tree(theEntry.path()) {}
 
 // END definitions for tree
@@ -331,7 +329,7 @@ struct raw_hash_node {
     sealdir::digest& hash;
     raw_hash_node * left, * right;
     sealdir::bound_hash_node * data;
-
+    
     raw_hash_node (raw_hash_node& theLeft, raw_hash_node& theRight) : hash(*(new sealdir::digest)) {
         left = &theLeft;
         right = &theRight;
