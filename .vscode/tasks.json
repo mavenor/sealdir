@@ -22,6 +22,16 @@
                     "-consoleloggerparameters:NoSummary"
                 ],
                 "problemMatcher": "$msCompile"
+            },
+            "osx": {
+                "type": "shell",
+                "command": "xcodebuild",
+                "args": [
+                    "-scheme", "build-then-link",
+                    "-configuration", "Debug",
+                    "-verbose"
+                ]
+                // "problemMatcher": ""
             }
         },
         {
@@ -41,6 +51,16 @@
                 "command": "msbuild",
                 "args": [
                     "-t:clean"
+                ]
+            },
+            "osx": {
+                "type": "shell",
+                "command": "xcodebuild",
+                "args": [
+                    "-scheme", "build-then-link",
+                    "-configuration", "Debug",
+                    "-verbose",
+                    "clean"
                 ]
             },
             "problemMatcher": []
