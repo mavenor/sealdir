@@ -49,6 +49,8 @@ const unsigned long SEAL_DIR_HASH_ALGO_SIZE = gcry_md_get_algo_dlen(SEAL_DIR_HAS
 
 namespace fs = std::filesystem;
 
+namespace sealdir {
+
 /* ------- BitMask Definitions ------- */
 static const std::ios::openmode readOnly  = ( std::ios::in | std::ios::binary );
 static const std::ios::openmode readWrite = ( std::ios::in | std::ios::out | std::ios::binary );
@@ -85,7 +87,7 @@ struct digest {
     digest (void) = default;
     digest (const digest&) = default;
     digest (digest&&) noexcept = default;
-
+    
     digest& operator= (const digest&) = default;
     digest& operator= (digest&&) noexcept = default;
     
@@ -116,7 +118,7 @@ public:
     // OPERATORS:
     // ----------
     bool operator== (bound_hash_node&);
-
+    
     // CONSTRUCTORS:
     // -------------
     bound_hash_node (const fs::path&);
@@ -159,5 +161,7 @@ class binary_hash_tree;
 /* ------ Function Definitions ------ */
 
 /* ---- End Function Definitions ---- */
+
+}
 
 #endif /* seal_dir_hpp */

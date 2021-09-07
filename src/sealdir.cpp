@@ -74,7 +74,7 @@ namespace fs = std::filesystem;
     // CONSTRUCTORS:
     // -------------
 
-    digest::digest (std::string& message) {
+sealdir::digest::digest (std::string& message) {
         gcry_md_hd_t ctx;
         gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
         gcry_md_write(ctx, message.c_str(), message.size());
@@ -84,7 +84,7 @@ namespace fs = std::filesystem;
         gcry_md_close(ctx);
     }
 
-    digest::digest (unsigned * data, size_t length) {
+sealdir::digest::digest (unsigned * data, size_t length) {
         gcry_md_hd_t ctx;
         gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
         gcry_md_write(ctx, &data, length);
@@ -97,7 +97,7 @@ namespace fs = std::filesystem;
     // OPERATORS:
     // ----------
 
-    digest& digest::operator+ (digest& other) {
+sealdir::digest& sealdir::digest::operator+ (digest& other) {
         unsigned * _total = new unsigned [SEAL_DIR_HASH_ALGO_SIZE*2];
         for (unsigned long i = 0; i < SEAL_DIR_HASH_ALGO_SIZE; i++) {
             _total[i]                           = this->numeric[i];
@@ -106,7 +106,7 @@ namespace fs = std::filesystem;
         return *(new digest(_total, SEAL_DIR_HASH_ALGO_SIZE*2));
     }
 
-    void digest::operator+= (digest& other) {
+void sealdir::digest::operator+= (digest& other) {
         gcry_md_hd_t ctx;
         gcry_md_open(&ctx, SEAL_DIR_HASH_ALGO, 0);
         gcry_md_write(ctx, this->numeric, SEAL_DIR_HASH_ALGO_SIZE);
@@ -119,31 +119,31 @@ namespace fs = std::filesystem;
         return;
     }
 
-    bool digest::operator== (digest& other) {
+bool sealdir::digest::operator== (digest& other) {
         return (numeric == other.numeric);
     }
 
-    bool digest::operator!= (digest& other) {
+bool sealdir::digest::operator!= (digest& other) {
         return (numeric != other.numeric);
     }
 
-    bool digest::operator> (digest& other) {
+bool sealdir::digest::operator> (digest& other) {
         return (numeric > other.numeric);
     }
 
-    bool digest::operator>= (digest& other) {
+bool sealdir::digest::operator>= (digest& other) {
         return (numeric >= other.numeric);
     }
 
-    bool digest::operator< (digest& other) {
+bool sealdir::digest::operator< (digest& other) {
         return (numeric < other.numeric);
     }
 
-    bool digest::operator<= (digest& other) {
+bool sealdir::digest::operator<= (digest& other) {
         return (numeric <= other.numeric);
     }
 
-    void digest::read (gcry_md_hd_t& ctx) {
+void sealdir::digest::read (gcry_md_hd_t& ctx) {
         numeric = new unsigned [SEAL_DIR_HASH_ALGO_SIZE];
         unsigned char * _hash = gcry_md_read(ctx, SEAL_DIR_HASH_ALGO);
         
@@ -153,7 +153,7 @@ namespace fs = std::filesystem;
         return;
     }
 
-    std::string& digest::print (void) {
+std::string& sealdir::digest::print (void) {
         std::stringstream _hex_value;
         for (unsigned long i = 0; i < SEAL_DIR_HASH_ALGO_SIZE; i++)
             _hex_value << std::hex << std::setw(2) << std::setfill('0') << numeric[i];
@@ -170,7 +170,7 @@ namespace fs = std::filesystem;
     
     // OPERATORS:
     // ----------
-    bool bound_hash_node::operator== (bound_hash_node& other) {
+bool sealdir::bound_hash_node::operator== (bound_hash_node& other) {
         if (this->digest_raw == other.digest_raw)
             return true;
         else
@@ -179,18 +179,18 @@ namespace fs = std::filesystem;
     
     // CONSTRUCTORS:
     // -------------
-    bound_hash_node::bound_hash_node (const fs::path& thePath) : directory_entry(thePath) {
+sealdir::bound_hash_node::bound_hash_node (const fs::path& thePath) : directory_entry(thePath) {
         nChildren = 0;
         children = nullptr;
     }
     
-    bound_hash_node::bound_hash_node (const fs::directory_entry& theEntry) : bound_hash_node(theEntry.path()) {}
+sealdir::bound_hash_node::bound_hash_node (const fs::directory_entry& theEntry) : bound_hash_node(theEntry.path()) {}
     
 // END definitions for bound_hash_node
 
 // BEGIN definitions for leaf
 
-    leaf::leaf (const fs::path& thePath) : bound_hash_node(thePath) {
+sealdir::leaf::leaf (const fs::path& thePath) : bound_hash_node(thePath) {
         file.open(thePath, readOnly);
         file.exceptions(dirty);
         if (gcry_md_test_algo(SEAL_DIR_HASH_ALGO) > 0)
@@ -253,15 +253,15 @@ namespace fs = std::filesystem;
         delete [] buffer;
     }
     
-    leaf::leaf (const fs::directory_entry& theEntry) : leaf(theEntry.path()) {}
-    leaf::leaf (const leaf& other) : bound_hash_node(other) {};
-    leaf::leaf (leaf&& other) noexcept : bound_hash_node(other) {};
+sealdir::leaf::leaf (const fs::directory_entry& theEntry) : leaf(theEntry.path()) {}
+sealdir::leaf::leaf (const leaf& other) : bound_hash_node(other) {};
+sealdir::leaf::leaf (leaf&& other) noexcept : bound_hash_node(other) {};
 
 // END definitions for leaf
 
 // BEGIN definitions for tree
 
-    tree::tree (const fs::path& thePath) : bound_hash_node(thePath) {
+sealdir::tree::tree (const fs::path& thePath) : bound_hash_node(thePath) {
         gcry_md_hd_t ctx_raw;
         gcry_md_open(&ctx_raw, SEAL_DIR_HASH_ALGO, 0);
         
@@ -298,12 +298,12 @@ namespace fs = std::filesystem;
         digest_meta.read(ctx_meta);
     }
     
-    tree::tree (const fs::directory_entry& theEntry) : tree(theEntry.path()) {}
+sealdir::tree::tree (const fs::directory_entry& theEntry) : tree(theEntry.path()) {}
 
 // END definitions for tree
 
 /* EXCEPTION `UNSUPPORTED' */
-unsupported::unsupported (std::filesystem::file_type theOffender) {
+sealdir::unsupported::unsupported (std::filesystem::file_type theOffender) {
     switch (theOffender) {
         case std::filesystem::file_type::block:
             offender = "block special";
@@ -323,22 +323,22 @@ unsupported::unsupported (std::filesystem::file_type theOffender) {
     }
 }
 
-const char * unsupported::what (void) const noexcept {
+const char * sealdir::unsupported::what (void) const noexcept {
     return std::move(("A(n) " + offender + " file was found in the given directory!").c_str());
 }
 
 struct raw_hash_node {
-    digest& hash;
+    sealdir::digest& hash;
     raw_hash_node * left, * right;
-    bound_hash_node * data;
+    sealdir::bound_hash_node * data;
 
-    raw_hash_node (raw_hash_node& theLeft, raw_hash_node& theRight) : hash(*(new digest)) {
+    raw_hash_node (raw_hash_node& theLeft, raw_hash_node& theRight) : hash(*(new sealdir::digest)) {
         left = &theLeft;
         right = &theRight;
         this->hash = left->hash + right->hash;
     }
     
-    raw_hash_node (bound_hash_node& data) : hash(data.digest_meta) {
+    raw_hash_node (sealdir::bound_hash_node& data) : hash(data.digest_meta) {
         left = NULL;
         right = NULL;
         this->data = &data;
