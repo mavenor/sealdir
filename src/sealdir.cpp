@@ -11,7 +11,7 @@
 
 /**
  Library initialisation (style depends on compiler).
- Dependancy `libgcrypt` needs to be initialised (see https://gnupg.org/documentation/manuals/gcrypt/Initializing-the-library.html)
+ Dependency `libgcrypt` needs to be initialised (see https://gnupg.org/documentation/manuals/gcrypt/Initializing-the-library.html)
  */
 #ifdef __GNUC__ // for all GCC-compatible compilers...
                 // Prototype declaration for `prep_gcrypt()' as this library's constructor
