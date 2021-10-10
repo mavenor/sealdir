@@ -15,7 +15,7 @@
             },
             "windows": {
                 "type": "shell",
-                "command": "msbuild",
+                "command": "msbuild.exe",
                 "args": [
                     "-property:GenerateFullPaths=true,Platform=x86",
                     "-t:build",
@@ -48,7 +48,7 @@
             },
             "windows": {
                 "type": "shell",
-                "command": "msbuild",
+                "command": "msbuild.exe",
                 "args": [
                     "-t:clean"
                 ]
