@@ -2,14 +2,10 @@ LIBRARY libsealdir
 EXPORTS
     ??0unsupported@sealdir@@QAE@W4file_type@filesystem@std@@@Z  ; sealdir::unsupported::unsupported
     ?what@unsupported@sealdir@@UBEPBDXZ                         ; sealdir::unsupported::what
-    ??1unsupported@sealdir@@UAE@XZ                              ; sealdir::unsupported::~unsupported
     ??0unsupported@sealdir@@QAE@ABV01@@Z                        ; sealdir::unsupported::unsupported
-    ??_Gunsupported@sealdir@@UAEPAXI@Z                          ; sealdir::unsupported::`scalar deleting destructor'
     ?what@failed_algo@sealdir@@UBEPBDXZ                         ; sealdir::failed_algo::what
     ??0failed_algo@sealdir@@QAE@XZ                              ; sealdir::failed_algo::failed_algo
-    ??1failed_algo@sealdir@@UAE@XZ                              ; sealdir::failed_algo::~failed_algo
     ??0failed_algo@sealdir@@QAE@ABV01@@Z                        ; sealdir::failed_algo::failed_algo
-    ??_Gfailed_algo@sealdir@@UAEPAXI@Z                          ; sealdir::failed_algo::`scalar deleting destructor'
     ??0digest@sealdir@@QAE@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z
                                                                 ; sealdir::digest::digest
     ??0digest@sealdir@@QAE@PAII@Z                               ; sealdir::digest::digest
