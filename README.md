@@ -1,5 +1,6 @@
 # sealdir
-A C++ library and CLI tool 🔧 to seal a directory’s state 📦 📨. In essence, gets the **hash of a directory**.
+A C++ library and CLI tool 🔧 to seal a directory’s state 📦 📨. In essence, gets the **hash of a directory**.  
+**Currently barely stable,** and far from how I'd imagined it. (Undergrad do be time-taking tho)
 
 While that technically doesn’t mean one specific thing (capable of being interpreted and/or implemented in different ways), here it means recursively hashing its contents using a **tree structure**. Including the metadata of each dir-tree node as well, this “*stamp*” hash that is thus calculated *should* make it very hard for a directory to be tampered with secretly.
 
