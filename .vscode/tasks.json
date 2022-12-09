@@ -4,18 +4,24 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "native-build",
-            "detail": "Build project with native dev system (xcodebuild/MSBuild)",
-            "group": {
-                "kind": "build",
-                "isDefault": true
+            "label": "Native Build",
+            "type": "shell",
+            "group": "build",
+            "detail": "Build Debug config (first valid scheme/dest)",
+            "options": {
+                "cwd": "${fileDirname}"
             },
-            "presentation": {
-                "reveal": "silent"
+            "osx": {
+                "command": "xcodebuild",
+                "args": [
+                    "-configuration",
+                    "Debug"
+                ],
+                "problemMatcher": []
             },
             "windows": {
                 "type": "shell",
-                "command": "msbuild.exe",
+                "command": "msbuild",
                 "args": [
                     "-property:GenerateFullPaths=true,Platform=x86",
                     "-t:build",
@@ -23,32 +29,211 @@
                 ],
                 "problemMatcher": "$msCompile"
             },
-            "osx": {
-                "type": "shell",
-                "command": "xcodebuild",
-                "args": [
-                    "-scheme", "build-then-link",
-                    "-configuration", "Debug",
-                    "-verbose"
-                ]
-                // "problemMatcher": ""
-            }
-        },
-        {
-            "group": "none",
-            "label": "Clean",
-            "detail": "Clean build directories",
             "presentation": {
                 "echo": true,
                 "reveal": "silent",
                 "focus": false,
                 "panel": "shared",
-                "showReuseMessage": false,
-                "clear": true
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Compile C++ binary",
+            "group": "build",
+            "detail": "Compiler: clang/MSVC | STD: GNU++17/C++17 (macOS/Windows)",
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "dependsOn": "Ensure Binaries Directory",
+            "osx": {
+                "command": "/usr/bin/clang++",
+                "args": [
+                    "-pedantic",
+                    "-xc++",
+                    "-std=gnu++17",
+                    "-I${HOME}/include",
+                    "-L${HOME}/lib",
+                    "-I/usr/local/include",
+                    "-L/usr/local/lib",
+                    "-lgcrypt",
+                    "-lgpg-error",
+                    "-lsealdir",
+                    "${file}",
+                    "-o",
+                    "${workspaceFolder}/bin/${fileBasenameNoExtension}"
+                ],
+                "problemMatcher": [
+                    "$gcc"
+                ]
+            },
+            "linux": {
+                "command": "/usr/bin/g++",
+                "args": [
+                    "-fdiagnostics-color=always",
+                    "-Wpedantic",
+                    "-std=gnu++17",
+                    "-fPIC",
+                    "-I${HOME}/include",
+                    "-L${HOME}/lib",
+                    "-I/usr/local/include",
+                    "-L/usr/local/lib",
+                    "-lgcrypt",
+                    "-lgpg-error",
+                    "-lsealdir",
+                    "${file}",
+                    "-o",
+                    "${workspaceFolder}/bin/${fileBasenameNoExtension}"
+                ],
+                "problemMatcher": "$gcc"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "revealProblems": "onProblem",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Compile C++ library for Debugging",
+            "group": "build",
+            "detail": "Compiler: clang/MSVC | STD: GNU++17/C++17 (macOS/Windows)",
+            "options": {
+                "cwd": "${workspaceFolder}/src"
+            },
+            "dependsOn": "Ensure Library Directory",
+            "osx": {
+                "command": "/usr/bin/clang++",
+                "args": [
+                    "-pedantic",
+                    "-g",
+                    "-xc++",
+                    "-std=gnu++17",
+                    "-I${HOME}/include",
+                    "-L${HOME}/lib",
+                    "-I/usr/local/include",
+                    "-L/usr/local/lib",
+                    "-lgcrypt",
+                    "-lgpg-error",
+                    "-Wl,-dylib",
+                    "sealdir.cpp",
+                    "-o",
+                    "${workspaceFolder}/lib/lib${fileBasenameNoExtension}.dylib"
+                ],
+                "problemMatcher": "$gcc"
+            },
+            "linux": {
+                "command": "/usr/bin/g++",
+                "args": [
+                    "-fdiagnostics-color=always",
+                    "-g",
+                    "-Wpedantic",
+                    "-std=gnu++17",
+                    "-I${HOME}/include",
+                    "-fPIC",
+                    "${file}",
+                    "-o",
+                    "${workspaceFolder}/lib/lib${fileBasenameNoExtension}.so"
+                ],
+                "problemMatcher": "$gcc"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "revealProblems": "onProblem",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Compile C++ binary for Debugging",
+            "group": "build",
+            "detail": "Compiler: clang/MSVC | STD: GNU++17/C++17 (macOS/Windows)",
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "dependsOn": "Ensure Binaries Directory",
+            "osx": {
+                "command": "/usr/bin/clang++",
+                "args": [
+                    "-pedantic",
+                    "-g",
+                    "-xc++",
+                    "-std=gnu++17",
+                    "-I${HOME}/include",
+                    "-L${HOME}/lib",
+                    "-I/usr/local/include",
+                    "-L/usr/local/lib",
+                    "-lgcrypt",
+                    "-lgpg-error",
+                    "-lsealdir",
+                    "${file}",
+                    "-o",
+                    "${workspaceFolder}/bin/${fileBasenameNoExtension}"
+                ],
+                "problemMatcher": [
+                    "$gcc"
+                ]
+            },
+            "linux": {
+                "command": "/usr/bin/g++",
+                "args": [
+                    "-fdiagnostics-color=always",
+                    "-g",
+                    "-Wpedantic",
+                    "-std=gnu++17",
+                    "-I${HOME}/include",
+                    "-L${HOME}/lib",
+                    "-I/usr/local/include",
+                    "-L/usr/local/lib",
+                    "-lgcrypt",
+                    "-lgpg-error",
+                    "-lsealdir",
+                    "-fPIC",
+                    "${file}",
+                    "-o",
+                    "${workspaceFolder}/bin/${fileBasenameNoExtension}"
+                ],
+                "problemMatcher": "$gcc"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "revealProblems": "onProblem",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Native Clean",
+            "type": "shell",
+            "group": "none",
+            "detail": "Clean build products (native build-sys)",
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
             },
             "windows": {
                 "type": "shell",
-                "command": "msbuild.exe",
+                "command": "msbuild",
                 "args": [
                     "-t:clean"
                 ]
@@ -57,13 +242,235 @@
                 "type": "shell",
                 "command": "xcodebuild",
                 "args": [
-                    "-scheme", "build-then-link",
-                    "-configuration", "Debug",
+                    "-configuration",
+                    "Debug",
                     "-verbose",
                     "clean"
                 ]
+            }
+        },
+        {
+            "label": "Ensure Library Directory",
+            "detail": "Ensures a \"lib\" directory at WS-root",
+            "runOptions": {
+                "instanceLimit": 1
             },
-            "problemMatcher": []
+            "type": "shell",
+            "group": "build",
+            "problemMatcher": [],
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "osx": {
+                "command": "[[",
+                "args": [
+                    "-d",
+                    "./lib",
+                    "]]",
+                    "||",
+                    "mkdir",
+                    "./lib"
+                ]
+            },
+            "linux": {
+                "command": "[[",
+                "args": [
+                    "-d",
+                    "./lib",
+                    "]]",
+                    "||",
+                    "mkdir",
+                    "./lib"
+                ]
+            }
+        },
+        {
+            "label": "Ensure Binaries Directory",
+            "detail": "Ensures a \"bin\" directory at WS-root",
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "type": "shell",
+            "group": "build",
+            "problemMatcher": [],
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "osx": {
+                "command": "[[",
+                "args": [
+                    "-d",
+                    "./bin",
+                    "]]",
+                    "||",
+                    "mkdir",
+                    "./bin"
+                ]
+            },
+            "linux": {
+                "command": "[[",
+                "args": [
+                    "-d",
+                    "./bin",
+                    "]]",
+                    "||",
+                    "mkdir",
+                    "./bin"
+                ]
+            }
+        },
+        {
+            "label": "Build + Link C++ Binary",
+            "detail": "Build using native toolchain then symlink binaries",
+            "group": "build",
+            "type": "shell",
+            "dependsOn": "Compile C++ binary",
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [],
+            "osx": {
+                "command": "ln",
+                "args": [
+                    "-sf",
+                    "${workspaceFolder}/bin/${fileBasenameNoExtension}",
+                    "${HOME}/bin"
+                ]
+            },
+            "linux": {
+                "command": "ln",
+                "args": [
+                    "-sf",
+                    "${workspaceFolder}/bin/${fileBasenameNoExtension}",
+                    "${HOME}/bin"
+                ]
+            }
+        },
+        {
+            "label": "Build + Link C++ Library for Debugging",
+            "detail": "Build using native toolchain then symlink binaries",
+            "group": "build",
+            "type": "shell",
+            "dependsOn": "Compile C++ library for Debugging",
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [],
+            "osx": {
+                "command": "ln",
+                "args": [
+                    "-sf",
+                    "${workspaceFolder}/lib/lib${fileBasenameNoExtension}.dylib",
+                    "${HOME}/lib"
+                ]
+            },
+            "linux": {
+                "command": "ln",
+                "args": [
+                    "-sf",
+                    "${workspaceFolder}/lib/lib${fileBasenameNoExtension}.so",
+                    "${HOME}/lib"
+                ]
+            }
+        },
+        {
+            "label": "Build + Link C++ Binary for Debugging with Sealdir",
+            "detail": "Build using native toolchain then symlink binaries",
+            "group": "build",
+            "type": "shell",
+            "dependsOn": "Compile C++ binary for Debugging",
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [],
+            "osx": {
+                "command": "ln",
+                "args": [
+                    "-sf",
+                    "${workspaceFolder}/bin/${fileBasenameNoExtension}",
+                    "${HOME}/bin"
+                ]
+            },
+            "linux": {
+                "command": "ln",
+                "args": [
+                    "-sf",
+                    "${workspaceFolder}/bin/${fileBasenameNoExtension}",
+                    "${HOME}/bin"
+                ]
+            }
+        },
+        {
+            "label": "Clean C/C++ Build",
+            "detail": "Clean products and unlink binaries",
+            "group": "build",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/lib"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [],
+            "osx": {
+                "command": "rm",
+                "args": [
+                    "${fileBasenameNoExtension}",
+                    "${HOME}/lib/${fileBasenameNoExtension}"
+                ]
+            },
+            "linux": {
+                "command": "rm",
+                "args": [
+                    "${fileBasenameNoExtension}",
+                    "${HOME}/lib/${fileBasenameNoExtension}"
+                ]
+            }
         }
     ]
 }
