@@ -20,7 +20,7 @@ void __attribute__((constructor)) prep_gcrypt();
 #elif defined (_WIN32) // with MSVC, use DllMain
                        // MSVC automatically gets DllMain() to be called in the
                        // ... heirarchy of initialisation (see https://docs.microsoft.com/en-us/cpp/build/run-time-library-behavior#initialize-a-dll)
-                       // Substitute (regular) prototype delcaration instead of __attribute__((constructor))
+                       // Substitute (regular) prototype declaration instead of __attribute__((constructor))
 void prep_gcrypt(void);
 
 // DllMain from template to prepare libgcyrpt

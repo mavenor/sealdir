@@ -1,8 +1,11 @@
 {
     "cSpell.words": [
-        "GCRYCTL",
         "fstr",
-        "gcry"
+        "gcry",
+        "GCRYCTL",
+        "HINSTANCE",
+        "libgcyrpt",
+        "SECMEM"
     ],
     "files.associations": {
         "iostream": "cpp",
