@@ -48,6 +48,10 @@ tmp/
 # Ignore "Build" directory
 Build/
 
+# Ignore compiled binary outputs
+lib/
+bin/
+
 # VS Code Settings (except tasks), as these are often environment-dependent
 .vscode/**
 !.vscode/tasks.json
