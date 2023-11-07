@@ -13,8 +13,8 @@
 
 /* Begin PBXFileReference section */
 		E90C03F026548CB50078D0DB /* libsealdir.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libsealdir.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9BE7A15264AF40B00C72A1F /* sealdir.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "sealdir.cpp"; sourceTree = "<group>"; };
-		E9BE7A16264AF40B00C72A1F /* sealdir.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = "sealdir.hpp"; sourceTree = "<group>"; };
+		E9BE7A15264AF40B00C72A1F /* sealdir.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sealdir.cpp; sourceTree = "<group>"; };
+		E9BE7A16264AF40B00C72A1F /* sealdir.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = sealdir.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,7 +191,7 @@
 					/usr/local/lib,
 					"${HOME}/Library/Developer/Xcode/DerivedData/Build/Products/Debug",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -249,7 +249,7 @@
 					/usr/local/lib,
 					"${HOME}/Library/Developer/Xcode/DerivedData/Build/Products/Debug",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -264,6 +264,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = lib;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				OTHER_LDFLAGS = "-lgcrypt";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -278,6 +279,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = lib;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				OTHER_LDFLAGS = "-lgcrypt";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
